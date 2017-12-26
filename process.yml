@@ -1,5 +1,5 @@
 apps:
   - script: "app.js"
-    name: "BurntUmber - 8080"
+    name: "ShopMyWay - 1337"
     watch: false
     args: "--prod"
