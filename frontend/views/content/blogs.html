@@ -1,0 +1,20 @@
+<article>
+    <div class="container">
+        <div class="blog main-blog-section">
+            <div class="blog__slider">
+                <ul class="list-unstyled flex-item-container">
+                    <li class="flex-item" ng-repeat="innerBlog in blogs">
+                        <div class="blog__banner-detail relate">
+                            <img ng-src="{{innerBlog.image |serverimage}}" alt="User photo" class="img-responsive">
+                            <div class="blog__desc">
+                                <h3 class="text-uppercase">{{innerBlog.name}}</h3>
+                                <div class="typedin-desc" ng-bind-html="innerBlog.description"></div>
+                                <p class="relate extra-content"><a ui-sref="inner-blogs({id:innerBlog._id})">Read more</a></p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</article>

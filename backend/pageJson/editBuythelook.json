@@ -1,0 +1,110 @@
+{
+    "title": "Edit Buythelook",
+    "name": "Buythelook",
+    "jsonPage": "viewBuythelook",
+    "desciption": "",
+    "pageType": "edit",
+    "urlFields": ["_id"],
+    "fields": [{
+        "name": "Title",
+        "type": "text",
+        "tableRef": "title",
+        "placeholder": "Enter Buythelook Name",
+        "id": "name",
+        "validation": ["", "trim", "unique"],
+        "url": ""
+    }, {
+        "name": "Major Image",
+        "type": "image",
+        "size": "978 x 753px",
+        "tableRef": "majorImage",
+        "placeholder": "Enter Image Link",
+        "id": "imgLink",
+        "option": "single",
+        "validation": ["", "trim", ""],
+        "view": true,
+        "url": ""
+    }, {
+        "name": "Inside Image",
+        "type": "image",
+        "size": "572 x 741px",
+        "tableRef": "insideImage",
+        "placeholder": "Enter Image Link",
+        "id": "imgLink1",
+        "option": "single",
+        "validation": ["", "trim", ""],
+        "view": true,
+        "url": ""
+    }, {
+        "name": "Description",
+        "type": "textarea",
+        "tableRef": "description",
+        "placeholder": "Enter Look Description",
+        "id": "description",
+        "onView": true,
+        "view": true,
+        "validation": ["required", "trim", ""],
+        "url": ""
+    }, {
+        "name": "Add Product",
+        "type": "box",
+        "tableRef": "products",
+        "placeholder": "Add product for look",
+        "id": "look",
+        "onView": true,
+        "validation": ["", "trim", ""],
+        "url": "",
+        "fields": [{
+            "name": "Product",
+            "type": "tags",
+            "tableRef": "product",
+            "placeholder": "Select Product",
+            "id": "productId",
+            "dropDownField": "productName",
+            "dropDownType": "single",
+            "searchApi": "searchCall",
+            "url": "Product/getUniqueProducts",
+            "onView": true,
+            "validation": ["", "trim", ""]
+        }]
+    }, {
+        "name": "Status",
+        "type": "tags",
+        "tableRef": "status",
+        "placeholder": "Select Status",
+        "id": "status",
+        "validation": ["", "trim"],
+        "url": "",
+        "dropDownField": "",
+        "dropDownType": "single",
+        "onView": true,
+        "dropDown": ["Enabled", "Disabled"]
+    }],
+    "action": [{
+        "name": "submit",
+        "action": "submitBuythelook",
+        "stateName": {
+            "page": "page",
+            "json": {
+                "id": "viewBuythelook"
+            }
+        }
+    }, {
+        "name": "cancel",
+        "sideMenuRedirect": true,
+        "stateName": {
+            "page": "page",
+            "json": {
+                "id": "viewBuythelook"
+            }
+        }
+    }],
+    "apiCall": {
+        "url": "Buythelook/save",
+        "params": "_id"
+    },
+    "preApi": {
+        "url": "Buythelook/getOne",
+        "params": "_id"
+    }
+}

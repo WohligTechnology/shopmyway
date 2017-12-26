@@ -1,0 +1,457 @@
+<div class="usr-account">
+    <div>
+        <img src="img/myaccount/myaccount-banner.jpg" alt="BannerImage" class="img-responsive">
+    </div>
+    <div class="container">
+        <div class="content-spacing">
+            <div class="row">
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <div class="list-checkout">
+                        <div class="checkout-tab-btn">
+                            <button class="btn btn--list" ng-disabled="loggedUser" ng-click="view='profTab'" ng-class="{
+                        'btn--brownActive': view=='profTab' }">PROFILE</button>
+                        </div>
+                        <div class="checkout-tab-btn">
+                            <button class="btn btn--list " ng-click="view='addrTab'" ng-class="{
+                        'btn--brownActive': view=='addrTab' }">MANAGE ADDRESS</button>
+                        </div>
+                        <div class="checkout-tab-btn">
+                            <button class="btn btn--list" ng-click="view='orderTab'" ng-init="subview='orders'" ng-class="{
+                        'btn--brownActive': view=='orderTab' }"> ORDER</button>
+                        </div>
+                        <div class="checkout-tab-btn">
+                            <button class="btn order-list--btn text-uppercase" ng-click="view='return'; retriveCancelledProducts('returned')" ng-class="{
+                        'btn--brownActive': view=='return' }">return/exchange</button>
+                        </div>
+                        <div class="checkout-tab-btn">
+                            <button class="btn order-list--btn text-uppercase" ng-click="view='cancel';retriveCancelledProducts('cancelled')" ng-class="{
+                        'btn--brownActive': view=='cancel' }">cancelled</button>
+                        </div>
+                        <div class="checkout-tab-btn">
+                            <button class="btn btn--list" ng-click="view='wishlistTab'" ng-class="{
+                        'btn--brownActive': view=='wishlistTab' }">WISHLIST</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="prof-tab" ng-if="view == 'profTab' ">
+                    <!--To open profile Tab-->
+                    <div class="col-md-9 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12  col-xs-12">
+                                <div class="userdtl-main">
+                                    <div class="usrdtl-title">
+                                        <h3 class="tab-title">YOUR DETAILS
+                                            <a href="" class="linking"><span ng-click="edit()" ng-if="!save">edit</span></a>
+                                            <a href="" class="linking"><span ng-if="save" ng-click="edit()">save</span></a>
+                                        </h3>
+                                    </div>
+                                    <div class="usrdtl" ng-if="!save">
+                                        <p class="usrdtl-info">Name: <span class="text-capitalize left-space">{{userDetails.data.firstName}} {{userDetails.data.lastName}}</span><br>                                            Email id: <span class="text-capitalize left-space">{{userDetails.data.email}}</span><br>                                            Mobile:
+                                            <span class="text-capitalize left-space">{{userDetails.data.mobile}}</span>
+                                        </p>
+
+                                        <p class="usrdtl-info">Member’s Current Status : <strong class="text-uppercase">gold</strong></p>
+                                        <p class="usrdtl-info">Want to change your password? <a ng-click="changePassword()" class="linking">CLICK HERE</a></p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12 edit-dtl" ng-if="save">
+                                            <div class="row">
+                                                <form class="customized-form">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="form-group">
+                                                            <input type="text" placeholder="First Name" class="form-control " ng-model="userDetails.data.firstName">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="form-group">
+                                                            <input type="text" placeholder="Last Name" class="form-control " ng-model="userDetails.data.lastName">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 ">
+                                                        <div class="form-group">
+                                                            <input type="text" placeholder="Mobile No" class="form-control " ng-model="userDetails.data.mobile">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="form-group">
+                                                            <input type="email" placeholder="Email Address" class="form-control " ng-model="userDetails.data.email">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="addr-tab" ng-if="view == 'addrTab' ">
+                    <!--To open Manage Address Tab-->
+                    <div class="col-md-9 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 col-xs-12" ng-if="!save" ng-repeat="shippingAdd in userDetails.data.shippingAddresses">
+                                <div class="manage-addrs custom-checkbox">
+                                    <p class="usrdtl-info"><span class="usr-name text-capitalize">{{userDetails.data.firstName}} {{userDetails.data.lastName}}</span>                                        {{userDetails.data.mobile}}
+                                        <br>{{userDetails.data.email}}</p>
+                                    <address class="usrdtl-info">{{shippingAdd.line1}}<br>
+                                        <span class="text-capitalize city">{{shippingAdd.city}}</span>{{shippingAdd.pinCode}}<br>{{shippingAdd.country}}</address>
+                                    <div class="checkbox usrdtl-info">
+                                        <input type="checkbox" id="x1">
+                                        <label for="x1">Use this as default shipping address</label>
+                                    </div>
+                                    <p><button class="btn address-edit-btn " ng-click="edit()">Edit</button> <button class="btn address-delt-btn"
+                                            ng-click="edit1(shippingAdd._id)">Delete</button></p>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="edit-addrs" ng-if="save">
+                                    <!--To open Edit Address Tab-->
+                                    <h3 class="tab-title text-uppercase">your details</h3>
+                                    <form class="customized-form">
+                                        <div class="usr-edit-detail">
+                                            <div class="row">
+                                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                                    <div class="form-group">
+                                                        <input type="text" placeholder="First Name" class="form-control" ng-model="userDetails.data.firstName">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                                    <div class="form-group">
+                                                        <input type="text" placeholder="Last Name" class="form-control" ng-model="userDetails.data.lastName">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                                    <div class="form-group">
+                                                        <input type="text" placeholder="Mobile Number" class="form-control" ng-model="userDetails.data.mobile">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                                    <div class="form-group">
+                                                        <input type="email" placeholder="Email Address" class="form-control" ng-model="userDetails.data.email">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <h3 class="tab-title text-uppercase">shipping address</h3>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Line 1*" class="form-control" ng-model="userDetails.data.shippingAddresses[0].line1">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Line 2" class="form-control" ng-model="userDetails.data.shippingAddresses[0].line2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Line 3" class="form-control" ng-model="userDetails.data.shippingAddresses[0].line3">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Line 4" class="form-control" ng-model="userDetails.data.shippingAddresses[0].line4">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="City" class="form-control" ng-model="userDetails.data.shippingAddresses[0].city">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <input type="number" placeholder="Pincode" class="form-control" ng-model="userDetails.data.shippingAddresses[0].pincode">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                                <div class="form-group country-dropdown" uib-dropdown>
+
+                                                    <button class="btn country-dropdown--btn text-capitalize" ng-model="userDetails.data.shippingAddresses[0].country" type="button"
+                                                        uib-dropdown-toggle>{{countryButton}} <span class="caret"></span></button>
+
+                                                    <ul class="country-dropdown-menu dropdown-menu text-capitalize" uib-dropdown-menu role="menu">
+                                                        <li role="menuitem" ng-repeat="country in selectCounteries" ng-click="changeCountry(country.name)"><a>{{country.name}}</a></li>
+                                                    </ul>
+                                                    <!--<input type="text" placeholder="Country" class="form-control" ng-model="userDetails.data.shippingAddresses[0].country">-->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-xs-12" ng-if="userDetails.data.shippingAddresses[0].country == 'India'">
+                                                <div class="form-group country-dropdown" uib-dropdown>
+                                                    <button class="btn country-dropdown--btn text-capitalize" ng-model="userDetails.data.shippingAddresses[0].state" type="button"
+                                                        uib-dropdown-toggle>{{stateButton}} <span class="caret"></span></button>
+                                                    <ul class="country-dropdown-menu dropdown-menu text-capitalize" uib-dropdown-menu role="menu">
+                                                        <li role="menuitem" ng-repeat="state in selectedState" ng-click="changeState(state)"><a>{{state}}</a></li>
+                                                    </ul>
+                                                    <!--<input type="text" placeholder="Country" class="form-control" ng-model="userDetails.data.shippingAddresses[0].country">-->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-xs-12" ng-if="userDetails.data.shippingAddresses[0].country != 'India'">
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="state" class="form-control" ng-model="userDetails.data.shippingAddresses[0].state">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <p><button class="btn save--btn text-uppercase" ng-click="edit()">save</button>
+                                            <button class="btn delt--btn text-uppercase" ng-click="edit1(shippingAdd._id)">cancel</button>
+                                        </p>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-tab" ng-if="view == 'orderTab' ">
+                    <!--To open an Order Tab-->
+                    <div class="col-md-9 col-sm-12 col-xs-12">
+                        <p class="text-uppercase order-list-action text-center">
+                            <button class="btn order-list--btn " ng-click="subview='orders'" ng-class="{
+                        'btn--brownActive': subview=='orders' }">orders </button>
+                            <!-- <button class="btn order-list--btn" ng-click="subview='return'; retriveCancelledProducts('returned')" ng-class="{
+                        'btn--brownActive': subview=='return' }">return/exchange</button> -->
+                            <!-- <button class="btn order-list--btn" ng-click="subview='cancel';retriveCancelledProducts('cancelled')" ng-class="{
+                        'btn--brownActive': subview=='cancel' }">cancelled</button> -->
+                        </p>
+                        <div class="account-order-table table-responsive" ng-if="subview == 'orders'">
+                            <table class="table" ng-repeat="order in orders">
+                                <thead>
+                                    <tr class="text-uppercase">
+                                        <th class="align-top">order placed<br><strong>{{order.createdAt | date:'dd/MM/yyyy'}}</strong></th>
+                                        <th class="align-top">order no.<br><strong>{{order.orderNo}}</strong></th>
+                                        <th class="align-top">order-status<br><strong>{{order.orderStatus}}</strong></th>
+                                        <th class="align-top">tracking id<br><strong>{{order.courierType.courierLink + order.trackingId}}</strong></th>
+                                        <th class="align-top">Grand total<br><strong>&#8377; {{order.totalAmount |number:0}}</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="relate" ng-repeat="product in order.products">
+                                        <td colspan="3">
+                                            <div class="item-img display-cell align-top">
+                                                <img ng-src="{{product.product.images[0].image|serverimage}}" alt="Ordered Item" class="img-responsive">
+                                            </div>
+                                            <div class="item-desc display-cell align-top">
+                                                <h4 class="item-name text-uppercase">{{product.product.productName}}</h4>
+                                                <p class="item-code"><span class="text-capitalize">Product Code:</span><span class="text-uppercase"> {{product.product.name}}</span>
+                                                </p>
+                                                <p class="item-cost"><i class="fa fa-inr"></i>{{product.product.price|number:0}}</p>
+                                            </div>
+                                            <div class="comment">
+                                                <p class="item-code">Comment: {{product.comment}}.</p>
+                                                <!-- <hr class="table-divider"> -->
+                                            </div>
+                                        </td>
+                                        <td colspan="3">
+                                            <div class="pull-right" ng-if="$index==0">
+                                                <button ng-if="order.orderStatus!='delivered'" class="btn order-action--btn text-uppercase" ui-sref="cancel({id:order._id})">Cancel purchase
+                                                </button>
+                                                <button ng-if="order.orderStatus=='delivered'" class="btn order-action--btn text-uppercase" ui-sref="return({id:order._id})">Return purchase
+                                                </button>
+                                                <button class="btn order-action--btn text-uppercase" ui-sref="orderdetail({id:order._id})">order details
+                                                </button>
+                                                <button class="btn order-action--btn text-uppercase">download Invoice
+                                                </button>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- <div class="account-order-table table-responsive" ng-if="subview == 'return'">
+                            <table class="table" ng-repeat="return in returned">
+                                <thead>
+                                    <tr class="text-uppercase">
+                                        <th>order placed<br><strong>{{return.createdAt | date:'dd/MM/yyyy'}}</strong></th>
+                                        <th>order no.<br><strong>{{return.orderNo}}</strong></th>
+                                        <th>order-satus<br><strong>returned</strong></th>
+                                        <th>Grand total<br><strong>&#8377; {{return.totalAmount}}</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="product in return.returnCancelProduct">
+                                    <tr ng-if="product.status=='returned'">
+                                        <td>
+                                            <div class="item-img">
+                                                <img ng-src="{{product.product.images[0].image|serverimage}}" alt="Ordered Item" class="img-responsive">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="item-desc">
+                                                <h4 class="item-name text-uppercase">{{product.product.productName}}</h4>
+                                                <p class="item-code">Product Code:<span class="text-uppercase"> {{product.product.name}}</span>
+                                                </p>
+                                                <p class="item-cost"><i class="fa fa-inr"></i>{{product.product.price}}</p>
+                                            </div>
+                                        </td>
+                                        <td colspan="3">
+                                            <div class="pull-right">
+                                                <button class="btn order-action--btn text-uppercase" ui-sref="orderdetail({id:return._id})">order details
+                                                </button>
+                                                <button class="btn order-action--btn text-uppercase" ui-sref="individual-page({id: product.product.productId})">buy it again
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> -->
+                        <!-- <div class="account-order-table" ng-if="subview == 'cancel'">
+                            <table class="table" ng-repeat="return in returned">
+                                <thead>
+                                    <tr class="text-uppercase">
+                                        <th>order placed<br><strong>{{return.createdAt | date:'dd/MM/yyyy'}}</strong></th>
+                                        <th>order no.<br><strong>{{return.orderNo}}</strong></th>
+                                        <th>order-satus<br><strong>cancelled</strong></th>
+                                        <th>Grand total<br><strong>&#8377; {{return.totalAmount}}</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="product in return.returnCancelProduct track by $index">
+                                    <tr ng-if="product.status=='cancelled'">
+                                        <td>
+                                            <div class="item-img">
+                                                <img ng-src="{{product.product.images[0].image|serverimage}}" alt="Ordered Item" class="img-responsive">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="item-desc">
+                                                <h4 class="item-name text-uppercase">{{product.product.productName}}</h4>
+                                                <p class="item-code">Product Code:<span class="text-uppercase"> {{product.product.name}}</span>
+                                                </p>
+                                                <p class="item-cost"><i class="fa fa-inr"></i>{{product.product.price}}</p>
+                                            </div>
+
+                                        </td>
+                                        <td colspan="3">
+                                            <div class="pull-right">
+                                                <button class="btn order-action--btn text-uppercase" ui-sref="individual-page({id: product.product.productId})">buy it again
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="account-order-table table-responsive" ng-if="view == 'return'">
+                    <table class="table" ng-repeat="return in returned">
+                        <thead>
+                            <tr class="text-uppercase">
+                                <th>order placed<br><strong>{{return.createdAt | date:'dd/MM/yyyy'}}</strong></th>
+                                <th>order no.<br><strong>{{return.orderNo}}</strong></th>
+                                <th>order-status<br><strong>returned</strong></th>
+                                <th>Grand total<br><strong>&#8377; {{return.totalAmount|number:0}}</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat="product in return.returnCancelProduct">
+                            <tr ng-if="product.status=='returned'">
+                                <td>
+                                    <div class="item-img">
+                                        <img ng-src="{{product.product.images[0].image|serverimage}}" alt="Ordered Item" class="img-responsive">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="item-desc">
+                                        <h4 class="item-name text-uppercase">{{product.product.productName}}</h4>
+                                        <p class="item-code">Product Code:<span class="text-uppercase"> {{product.product.name}}</span>
+                                        </p>
+                                        <p class="item-cost"><i class="fa fa-inr"></i>{{product.product.price|number:0}}</p>
+                                    </div>
+                                </td>
+                                <td colspan="3">
+                                    <div class="pull-right">
+                                        <button class="btn order-action--btn text-uppercase" ui-sref="orderdetail({id:return._id})">order details
+                                                </button>
+                                        <button class="btn order-action--btn text-uppercase" ui-sref="individual-page({id: product.product.productId})">buy it again
+                                                </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="account-order-table" ng-if="view == 'cancel'">
+                    <table class="table" ng-repeat="return in returned">
+                        <thead>
+                            <tr class="text-uppercase">
+                                <th>order placed<br><strong>{{return.createdAt | date:'dd/MM/yyyy'}}</strong></th>
+                                <th>order no.<br><strong>{{return.orderNo}}</strong></th>
+                                <th>order-status<br><strong>cancelled</strong></th>
+                                <th>Grand total<br><strong>&#8377; {{return.totalAmount|number:0}}</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat="product in return.returnCancelProduct track by $index">
+                            <tr ng-if="product.status=='cancelled'">
+                                <td>
+                                    <div class="item-img">
+                                        <img ng-src="{{product.product.images[0].image|serverimage}}" alt="Ordered Item" class="img-responsive">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="item-desc">
+                                        <h4 class="item-name text-uppercase">{{product.product.productName}}</h4>
+                                        <p class="item-code">Product Code:<span class="text-uppercase"> {{product.product.name}}</span>
+                                        </p>
+                                        <p class="item-cost"><i class="fa fa-inr"></i>{{product.product.price|number:0}}</p>
+                                    </div>
+
+                                </td>
+                                <td colspan="3">
+                                    <div class="pull-right">
+                                        <button class="btn order-action--btn text-uppercase" ui-sref="individual-page({id: product.product.productId})">buy it again
+                                                </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="wishlist-tab" ng-if="view == 'wishlistTab' ">
+                    <div class="col-md-9">
+                        <div class="row" ng-repeat="wishlist in wl">
+                            <div class="col-md-3 col-sm-6 col-xs-6" ng-repeat="xyz in wishlist" ng-init="parentIndex = $index">
+                                <div class="buy-info">
+                                    <div class="buy-slider">
+                                        <flex-slider flex-slide="buy in xyz.images track by $index" prev-text="" next-text="" animation="slide" min-items="3">
+                                            <li>
+                                                <i class="fa fa-heart" aria-hidden="true" ng-click="removeWishlist(xyz.productId);"></i>
+                                                <img ng-src="{{buy.image | serverimage}}" class="img-responsive" ng-click="addcart();">
+                                            </li>
+                                        </flex-slider>
+                                        <div class="buy-para custom-checkbox">
+                                            <h4><i class="fa fa-inr" aria-hidden="true"></i> {{xyz.price|number:0}}</h4>
+                                            <h5 class="text-uppercase">{{xyz.productName}}</h5>
+
+                                            <div class="checkbox inline-block marg0" ng-click="remove();">
+                                                <input type="checkbox" id="{{xyz.productId}}">
+                                                <label for="{{xyz.productId}}">
+                                          Add to compare
+                                        </label>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-default btn--brown text-uppercase" ui-sref="individual-page({id: xyz.productId})">buy</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

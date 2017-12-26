@@ -1,0 +1,31 @@
+<div class="mycart-header">
+    <h4 class="text-center"> YOU ARE ENTITLED FOR {{wishlists.length}} PRODUCT</h4>
+
+    <div class="cross-absolute" ng-click="$dismiss();">
+        <img src="../img/home/33.png" class="img-responsive" alt="">
+    </div>
+</div>
+<div class="mycart-modal">
+    <div class="container-fluid">
+        <div class="mycart-modal-container">
+            <div class="row">
+                <!--<div class="col-md-10 col-md-offset-1">-->
+
+                <!--<div class="col-md-3" ng-repeat="mycart in gift">-->
+                <div class="col-md-3 col-sm-3" ng-repeat="gift in gifts">
+                    <div class="mycart-modal">
+                        <div class="modal-img">
+                            <img ng-src="{{gift.photo|serverimage}}" alt="" class="img-responsive item__img">
+                        </div>
+                        <p class="text-center">{{gift.name}}</p>
+                        <p class="text-center">{{gift.description}}</p>
+                        <!--<p class="text-left">{{mycart.title2}}</p>-->
+                        <p><button class="btn add-cart--btn btn-block text-uppercase" ng-click="selectGift(gift)">Select gift</button></p>
+                        <!--<p><button class="btn add-cart--btn btn-block text-uppercase"></button></p>-->
+                    </div>
+                </div>
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>

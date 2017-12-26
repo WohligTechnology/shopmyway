@@ -1,0 +1,94 @@
+ @media (max-width: $screen-md-max) {
+     // Desktop
+     //Start of home.html
+     .new-arrival {
+         .new-arrival__title .new-arrival--border--line {
+             &:before {
+                 left: 29%;
+             }
+             &:after {
+                 right: 29%;
+             }
+         }
+     }
+     .featured {
+         .featured__title .featured--border--line {
+             &:before {
+                 left: 32%;
+             }
+             &:after {
+                 right: 32%;
+             }
+         }
+     }
+     .cloth-buy {
+         .cloth-buy__title .cloth-buy--border--line {
+             &:before {
+                 left: 10%;
+             }
+             &:after {
+                 right: 10%;
+             }
+         }
+         .cloth-buy__desc {
+             @include padding(35px 50px);
+             &:before {
+                 bottom: 25px;
+                 left: -257px;
+             }
+             &:after {
+                 height: 280px;
+             }
+         }
+     }
+     .sale {
+         .sale__title .sale--border--line {
+             &:before {
+                 left: 36%;
+             }
+             &:after {
+                 right: 36%;
+             }
+         }
+     } //End of home.html
+     // Start of about us
+     .cloth-buy .cloth-buy__desc:before {
+         width: 532px;
+     }
+     .about-cloth .cloth-buy .cloth-buy__desc:after {
+         height: 315px;
+     } //Start of checkout 
+     .list-checkout {
+         padding-left: 40px;
+     } //End of checkout
+     //Start of compare-products
+     .compare-section {
+         .compare--borderline {
+             &:before {
+                 left: 15%;
+             }
+             &:after {
+                 right: 15%;
+             }
+         } //End of compare products
+     }
+     .details-form {
+         .payment-checkbox .checkbox label {
+             margin-right: 4px;
+         }
+     } //End of checkout
+     //Start of footer
+     .footer {
+         p {
+             font-size: 11px;
+         }
+     }
+     .footer-up {
+         .flex-container {
+             width: 100%;
+         }
+         .footer-up__img {
+             display: none;
+         }
+     } //End of footer
+ }

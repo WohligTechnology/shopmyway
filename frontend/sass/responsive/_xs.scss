@@ -1,0 +1,884 @@
+         @media (max-width: $screen-xs-max) {
+             // Mobile
+             body {
+                 padding-top: 105px;
+             }
+             .side-nav {
+                 .links {
+                     width: 100%;
+                 }
+             }
+             .cloth-buy {
+                 .cloth-buy__desc h2 {
+                     font-size: 20px;
+                 }
+             } //Start of global classes
+             .border-line {
+                 &:before {
+                     width: 20%
+                 }
+                 &:after {
+                     width: 20%
+                 }
+             }
+             /*Note: You need to extend this class by using @extend method */
+             .plus-minus-btn {
+                 .quantity__input {
+                     text-align: center;
+                     @include size(40px, 33px);
+                     font-size: 16px;
+                 }
+             } //End of  plus & minus quantity
+             .customized-form {
+                 .form-control {
+                     height: 35px;
+                 }
+             }
+             .section-tp-bt-padd {
+                 @include padding(5px 0);
+             }
+             .table-responsive>.table {
+                 margin-bottom: 15px;
+             } //Need to override bootstrap's radio-inline & checkbox-inline class
+             .radio-inline+.radio-inline,
+             .checkbox-inline+.checkbox-inline {
+                 margin-left: 0px
+             }
+             .flex-direction-nav a {
+                 @include size(30px, 30px);
+                 &:before {
+                     font-size: 12px;
+                 }
+             } // for padding
+             .padd-rt0 {
+                 padding-right: 15px;
+             } //End of global classes
+             //start of header
+             // Design for side navigation
+             .mobview-searchbar-input-lg {
+                 height: 35px;
+             }
+             .mobview-side-nav {
+                 width: 275px;
+                 top: 105px;
+             }
+             .mobview-links,
+             .mobview-categories,
+             .mobview-promotions {
+                 width: 90%;
+             }
+             .mobview-header-navigation {
+                 @include align-items(center);
+                 @include display(flex);
+                 @include flex-direction(row);
+                 @include flex-wrap(nowrap);
+                 @include justify-content(flex-start);
+             }
+             .custom-navbar-header,
+             custom-navbar-nav {
+                 flex: 1;
+             }
+             .custom-navbar-nav {
+                 @include align-items(center);
+                 @include display(flex!important);
+                 @include flex-direction(row);
+                 @include flex-wrap(nowrap);
+                 @include justify-content(flex-end);
+             }
+             .navbar {
+                 .navbar-right {
+                     @include margin(0);
+                     .added-cart-amnt {
+                         top: 15px;
+                         right: 0;
+                     }
+                 }
+             }
+             .navbar {
+                 .navbar__sideNav {
+                     @include padding(10px 0 10px 10px);
+                 }
+                 .navbar-brand {
+                     @include padding(10px 5px!important);
+                     img {
+                         width: 110px;
+                     }
+                 }
+             }
+             .nav li>a {
+                 padding: 10px;
+             }
+             .mobview-search-bar {
+                 top: 70px;
+             }
+             .search-product {
+                 .fa-search {
+                     font-size: 18px;
+                 }
+             } //End of header
+             //Start of home page
+             .homepg-title {
+                 width: 250px;
+                 @include margin(10px auto!important);
+                 font-size: 25px;
+             }
+             .homepg-slider-product-cost {
+                 font-size: 16px;
+             }
+             .homepg-slider-product-name {
+                 font-size: 13px;
+             }
+             .new-arrival {
+                 .new-arrival__title .new-arrival--border--line {
+                     &:before {
+                         left: 0;
+                     }
+                     &:after {
+                         right: 0;
+                     }
+                 }
+                 .new-arrival__slider {
+                     @include padding( 45px 15px 25px);
+                     .new-arrival__banner-detail {
+                         h4 {
+                             height: 30px;
+                             -webkit-line-clamp: 2;
+                         }
+                         .buynow--btn {
+                             @include padding(3px 15px);
+                         }
+                         .fa-shopping-cart {
+                             @include size(20px, 20px);
+                             font-size: 13px;
+                         }
+                     }
+                 }
+                 .featured__icon-heart {
+                     @include size(30px, 30px);
+                     @include padding(3px);
+                     font-size: 14px
+                 }
+             } //flex navigation for new arrival and sale section
+             .new-arrival,
+             .sale,
+             .featured {
+                 // For custom flex nav
+                 .flex-prev {
+                     @include size(28px, 28px);
+                     left: 165px !important;
+                 }
+                 .flex-next {
+                     @include size(28px, 28px);
+                 }
+             }
+             .featured {
+                 .flex-direction-nav {
+                     top: -20px;
+                 }
+                 .flex-direction-nav a {
+                     background-color: $darkBrown1;
+                     color: white;
+                     &:before {
+                         color: white;
+                     }
+                 }
+             }
+             .featured {
+                 .featured__title .featured--border--line {
+                     &:before {
+                         left: 9%;
+                     }
+                     &:after {
+                         right: 9%;
+                     }
+                 }
+                 .featured__banner-detail {
+                     .featured__cloth-desc {
+                         h4 {
+                             height: 30px;
+                             -webkit-line-clamp: 2;
+                         }
+                     }
+                     .buy--btn {
+                         @include padding(3px 15px);
+                     }
+                     .featured__icon-heart {
+                         @include size(30px, 30px);
+                         @include padding(3px);
+                         font-size: 14px
+                     }
+                     .featured__icon-cart {
+                         @include size(20px, 20px);
+                         @include padding(2px 5px);
+                         font-size: 13px;
+                     }
+                 }
+                 .viewmore-btn {
+                     @include padding(5px 0);
+                 }
+                 .view--more {
+                     width: 105px;
+                 }
+             }
+             .cloth-buy {
+                 .paddrt {
+                     @include padding(null 15px null 15px);
+                 }
+                 .paddlt {
+                     @include padding(null 15px null 15px);
+                 }
+                 .cloth-buy__title .cloth-buy--border--line {
+                     &:before {
+                         left: 0;
+                     }
+                     &:after {
+                         right: 0;
+                     }
+                 }
+                 .cloth-buy__desc {
+                     @include padding(15px);
+                     h2 {
+                         font-size: 20px;
+                     }
+                 }
+             }
+             .blog {
+                 .blog__title .blog--border--line {
+                     &:before {
+                         left: 15%;
+                     }
+                     &:after {
+                         right: 15%;
+                     }
+                 }
+                 .blog__slider {
+                     .blog__banner-detail {
+                         .blog__desc {
+                             height: 115px;
+                             @include padding(3px 5px);
+                             h3 {
+                                 margin-top: 15px;
+                                 font-size: 16px;
+                             }
+                             .typedin-desc {
+                                 height: 30px;
+                                 -webkit-line-clamp: 2;
+                             }
+                             p.extra-content {
+                                 &:after {
+                                     font-size: 19px;
+                                     @include padding(0 2px);
+                                 }
+                             }
+                             a {
+                                 font-size: 12px;
+                             }
+                         }
+                     }
+                 }
+             }
+             .sale {
+                 .sale__title .sale--border--line {
+                     &:before {
+                         left: 18%;
+                     }
+                     &:after {
+                         right: 18%;
+                     }
+                 }
+                 .sale__slider .sale__banner-detail h4 {
+                     height: 30px;
+                     -webkit-line-clamp: 2;
+                     font-size: 13px;
+                 }
+                 .sale__slider .sale__banner-detail h3 {
+                     font-size: 16px;
+                 }
+                 .buy--btn {
+                     @include padding(3px 15px);
+                 }
+             } //End of home page
+             //Start of about us page
+             .listing-img-common {
+                 margin-top: 0;
+             }
+             .about-info {
+                 padding-right: 0;
+                 padding-left: 0;
+                 text-align: left;
+                 @include column-count(1);
+             }
+             .about-cloth {
+                 .cloth-buy {
+                     .cloth-buy__desc {
+                         @include padding(15px);
+                         margin-top: 15px;
+                         h2 {
+                             font-size: 20px;
+                             &:before {
+                                 @include size(30px, 25px);
+                                 top: -35px;
+                             }
+                         }
+                     }
+                 }
+             } //End of about page
+             //Start of Blogs page
+             .main-blog-section {
+                 @include padding(25px 0);
+                 .flex-item {
+                     width: 100%;
+                     margin-bottom: 15px;
+                 }
+             } //End of blogs page
+             //Start of inner-blogs page
+             .inner-blog-section {
+                 width: 100%;
+                 @include padding(15px 0 0);
+                 @include margin(0 auto);
+             }
+             .inner-blog-title {
+                 @include padding(5px 0);
+                 @include margin(5px 0);
+                 font-size: 20px;
+             }
+             .inner-blog {
+                 .blog__slider {
+                     .flexslider {
+                         margin-bottom: 0;
+                         &:hover {
+                             .flex-direction-nav .flex-prev,
+                             .flex-direction-nav .flex-next {
+                                 opacity: 1;
+                             }
+                         }
+                     }
+                 }
+             }
+             .inner-blog-change-content {
+                 .flex-direction-nav a {
+                     width: 90px;
+                 }
+                 .flex-direction-nav .flex-prev {
+                     left: 0px!important;
+                 }
+                 .flex-direction-nav .flex-prev {
+                     right: 0!important;
+                 }
+                 .fa-long-arrow-left,
+                 .fa-long-arrow-right {
+                     font-size: 14px;
+                 }
+                 .social-box {
+                     font-size: 14px;
+                     li {
+                         @include margin(0 4px);
+                         color: $darkBrown1;
+                     }
+                     li:not(:first-child) {
+                         width: 22px;
+                         height: 22px;
+                     }
+                 }
+             }
+             .also-view {
+                 @include padding(15px 0);
+             } //End of inner blogs page
+             //Start of brands page
+             .brands-images {
+                 .col-md-3 {
+                     border-right: 1px solid grey!important;
+                     border: 1px solid grey;
+                 }
+             }
+             .brand1 {
+                 @include padding(15px);
+                 figure {
+                     height: 50px;
+                     img {
+                         margin: 0 auto;
+                         max-height: 50px;
+                     }
+                 }
+             } //End of brand page
+             //Start of buy the look page
+             .buy-the-look {
+                 h1 {
+                     font-size: 25px;
+                     margin-top: 15px;
+                     margin-bottom: 15px;
+                 }
+             }
+             .content-spacing {
+                 margin: 15px 0;
+             }
+             .buy-slider {
+                 margin-bottom: 15px;
+             }
+             .buy-info {
+                 h4 {
+                     font-size: 16px;
+                 }
+                 h5 {
+                     font-size: 13px;
+                 }
+             } //End of buy the look page
+             //Start of Cancel, cancel-msg, return page
+             .linking {
+                 font-size: 12px;
+             }
+             .item-name {
+                 font-size: 14px;
+             }
+             .item-code {
+                 font-size: 11px;
+             }
+             .item-cost {
+                 font-size: 15px;
+                 .fa-inr {
+                     font-size: 15px;
+                 }
+             }
+             .address-delt-btn,
+             .delt--btn,
+             .comnt-submit--btn {
+                 width: auto;
+             }
+             .order-status-title {
+                 // This class is used in return, order, return successful & cancel, cancel successful msg.html
+                 @include margin(10px 0);
+                 font-size: 20px;
+             }
+             /*NOTE:.account-order-table class has been extended in order-detail.html & return-order.html*/
+             .account-order-table {
+                 thead> {
+                     tr>th {
+                         padding-left: 15px;
+                     }
+                 }
+                 .item-img {
+                     width: 115px;
+                     @include padding(10px);
+                     margin-right: 5px;
+                 }
+                 .item-desc {
+                     width: 235px;
+                 }
+             }
+             .order-details-table {
+                 // This class has been extended in order-return-table
+                 @include padding(0 0 15px);
+                 .order-payment-info {
+                     font-size: 14px;
+                 }
+                 address {
+                     padding-right: 0;
+                     font-size: 14px;
+                 }
+             } //End of cancel,
+             //Start of return-success.html  cancel-msg.html
+             .font17 {
+                 font-size: 14px;
+             }
+             .return-success-msg,
+             .cancel-success-msg {
+                 @include padding(15px 0);
+                 .return-success-content,
+                 .cancel-success-content {
+                     @include padding(15px);
+                 }
+                 p {
+                     margin-bottom: 10px;
+                 }
+                 .backto-prof-btn {
+                     padding-top: 10px;
+                 }
+             } // End of return-success.html
+             //Start of checkout.html
+             .checkout {
+                 .content-spacing {
+                     .btn--list {
+                         width: 100%;
+                     }
+                     .btn--next {
+                         width: auto;
+                         @include padding(3px 35px);
+                         float: right;
+                     }
+                 }
+             } // class used in check out & my-account page for vertical 
+             //This class has been extended in mycart's table in my cart page
+             .order-table {
+                 th {
+                     font-size: 16px;
+                 }
+                 tbody>tr {
+                     td {
+                         font-size: 14px;
+                     }
+                 }
+             } //End of extended class .order-table
+             .checkout-tab-btn {
+                 display: block;
+                 margin-right: 0;
+             }
+             .btn--login {
+                 font-size: 14px;
+             }
+             .list-checkout {
+                 padding-bottom: 15px;
+                 padding-left: 0;
+             }
+             .social-icons {
+                 // used in login modal and checkout page
+                 text-align: center;
+                 .social-icons__list {
+                     width: 35px;
+                     height: 35px;
+                     border-radius: 50%;
+                     text-align: center;
+                     font-size: 16px;
+                     line-height: 38px;
+                 }
+             } //End of check out & my-account page for vertical button
+             .details-form {
+                 margin-bottom: 15px;
+             }
+             .details-form {
+                 .payment-checkbox {
+                     .font__style {
+                         font-size: 15px;
+                     }
+                 }
+                 .checkout__cont-btn {
+                     width: 100%;
+                     @include margin(15px null);
+                     font-size: 14px;
+                 }
+             } //End of checkout.html
+             //Start of compare products page
+             .compare-section {
+                 margin-top: 15px;
+                 h1 {
+                     width: 290px;
+                     @include margin(15px auto);
+                 }
+                 .compare--borderline {
+                     &:before {
+                         width: 15%;
+                         left: 0;
+                     }
+                     &:after {
+                         width: 15%;
+                         right: 0;
+                     }
+                 }
+                 .compare-table {
+                     padding-left: 0;
+                     padding-right: 0;
+                     .product-dtls {
+                         width: 165px;
+                         text-align: right;
+                     }
+                     .compare-img {
+                         width: 100px;
+                         padding-top: 0;
+                         padding-bottom: 0;
+                     }
+                     .btn-quick-view {
+                         @include padding(3px 10px);
+                         font-size: 10px;
+                     }
+                     .product-align>tbody>tr:nth-child(3)>td+td {
+                         font-size: 16px;
+                     }
+                 }
+             }
+             .compare--btn {
+                 width: 125px;
+                 @include padding(3px 10px);
+                 font-size: 14px;
+             }
+             .pluse-icon {
+                 left: 0.4%;
+             } //End of compare proucts page 
+             //Start of  about us page
+             .contact-us {
+                 .contactus-content {
+                     @include margin(15px auto);
+                 }
+                 .enquiry-form-pdd {
+                     max-width: 100%;
+                     @include padding(15px 0);
+                     display: block;
+                 }
+                 .enquiry-form {
+                     @include padding(20px);
+                 }
+                 .contactus-details {
+                     margin-left: 0;
+                     max-width: 100%;
+                     @include padding(20px);
+                 }
+                 .head-office {
+                     @include padding(15px);
+                 }
+             } //End of about us
+             //Start of gift-card
+             .giftcard {
+                 .giftcard-padd {
+                     @include padding(15px);
+                 }
+                 .addcart--btn {
+                     width: auto;
+                 }
+             } //End of gift card
+             //Start of individual-page
+             .slider2 {
+                 @include padding(10px 25px);
+                 margin: 0;
+                 .flexslider {
+                     margin-bottom: 0;
+                 }
+             }
+             .individual-container {
+                 padding-top: 15px;
+                 .breadCrumbs-letter {
+                     padding-bottom: 15px;
+                 }
+                 .padd-rt0 {
+                     padding-right: 15px;
+                 }
+                 .padd-lt3 {
+                     padding-left: 15px;
+                 }
+                 .individual-first {
+                     min-height: 200px;
+                 }
+                 .product-img {
+                     @include size(200px, 250px);
+                     @include margin(0 auto);
+                 }
+             }
+             .individual-main {
+                 @include padding(15px 7px);
+             }
+             .absolute-text {
+                 float: left;
+             }
+             .prod-code {
+                 .prod-code__left,
+                 .prod-code__right {
+                     margin-left: 0;
+                 }
+                 .prod-code__right {
+                     width: 200px;
+                     margin-right: 0;
+                     float: left!important;
+                 }
+             }
+             .first-sec {
+                 h3 {
+                     font-size: 18px;
+                 }
+                 h4 {
+                     font-size: 16px;
+                 }
+             }
+             .second-sec {
+                 .viewSize {
+                     display: block;
+                     max-width: 100%;
+                     &:after {
+                         content: none;
+                     }
+                 }
+                 .quantity {
+                     @include padding(0);
+                 }
+                 h5 {
+                     text-align: left;
+                 }
+             }
+             .fourth-sec {
+                 .leftContent {
+                     .inline-block {
+                         vertical-align: initial;
+                     }
+                     .leftContent__specHead {
+                         width: auto;
+                         margin-right: 5px;
+                     }
+                 }
+             }
+             .individual-btn {
+                 .btn-add {
+                     font-size: 13px;
+                     padding: 5px 6px;
+                 }
+                 .btn-wish {
+                     font-size: 13px;
+                     padding: 5px 6px;
+                     margin-left: 0;
+                 }
+             } //End of individual page
+             //Start of listing page
+             .listing-container {
+                 @include padding(null 0 15px 0);
+                 margin-bottom: 15px;
+             }
+             .list-breadcrumb {
+                 margin-top: 15px;
+             }
+             .listing-main {
+                 padding-left: 0;
+                 margin-top: 20px;
+             }
+             .btn-listing {
+                 width: 175px;
+                 position: relative;
+                 .fa-reg {
+                     height: 29px;
+                     right: 0;
+                 }
+             }
+             .listview {
+                 .buy--btn {
+                     width: 125px;
+                 }
+                 .item-details {
+                     width: 200px;
+                     white-space: normal;
+                 }
+                 .listview-item-width {
+                     @include size(100px, 125px);
+                 }
+                 .custom-checkbox {
+                     width: 135px;
+                 }
+             } //End of listing page
+             //Start of my account page
+             .tab-title {
+                 // Used For all Tabs title which uses h3
+                 font-size: 20px;
+             }
+             .usr-account {
+                 address {
+                     margin-bottom: 15px;
+                 }
+                 .order-list-action {
+                     text-align: left;
+                 }
+                 .order-list--btn {
+                     width: 94px;
+                     margin-right: 0px;
+                 }
+             }
+             .checkout-tab-btn {
+                 .btn--list {
+                     width: 100%;
+                 }
+             } //End of my account page
+             //Start of my-cart page
+             .mycart-container {
+                 @include padding(20px 10px);
+             }
+             .mycart-table {
+                 tbody>tr {
+                     td:last-child {
+                         font-size: 18px;
+                     }
+                 }
+             }
+             .mycart-footer .checkout--btn,
+             .mycart-footer .shop--btn {
+                 width: auto;
+                 @include padding(3px 8px);
+                 margin-bottom: 15px;
+             }
+             .mycart-footer span,
+             .mycart-footer p {
+                 font-size: 14px;
+             }
+             .mycart-footer {
+                 .inline-block:last-child {
+                     padding-left: 5px;
+                 }
+             } //End of my-cart page
+             //Start of order-detail page
+             .usr-status-title {
+                 font-size: 16px!important;
+             } //End of order-detail page 
+             //Start of errormsg & thankyou-msg page
+             //Use h2 for msg-title + .font-md for weight bold
+             .msg-title {
+                 font-size: 25px;
+             }
+             .msg-title-focus-text {
+                 width: 155px;
+                 font-size: 15px;
+             }
+             .thankyou-msg {
+                 .msg-title-focus-text {
+                     width: 255px;
+                 }
+             }
+             .error-msg,
+             .thankyou-msg {
+                 .msg-action-section {
+                     min-height: 100px;
+                 }
+                 .msg--btn {
+                     @include padding(3px 15px);
+                 }
+                 .msg-order-status {
+                     font-size: 16px;
+                 }
+             } //End of errormsg & thankyou-msg page   
+             //Start of all modals
+             .btn--mob-modal {
+                 // use this class for all modal's button
+                 font-size: 12px;
+                 @include padding(3px 10px);
+             } //Sizes which are used for modals
+             .quickview-modal-size .modal-dialog {
+                 // Used this class in listing-ctrl.js in modal
+                 width: auto;
+             }
+             .modal-container {
+                 @include padding(15px);
+                 .login-head {
+                     h1 {
+                         font-size: 20px;
+                     }
+                     p {
+                         font-size: 14px;
+                     }
+                 }
+                 .form-otp {
+                     width: 255px;
+                     padding: 10px 15px!important;
+                     @include margin(0 auto);
+                 }
+             } //Start of quick view page
+             .quick-view-product {
+                 @include padding(0);
+                 .individual-first {
+                     min-height: 200px;
+                 }
+                 .product-img {
+                     height: 200px;
+                 }
+                 .fourth-sec {
+                     .right-content p {
+                         padding-left: 0;
+                     }
+                     .right-content {
+                         &:before {
+                             content: none;
+                         }
+                     }
+                 }
+             } //End of quick view page
+             //End of all modals: ;
+         }

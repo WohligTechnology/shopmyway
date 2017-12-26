@@ -1,0 +1,24 @@
+<div class="listing-img listing-img-common">
+    <img src="frontend/img/brands/brands-banner.jpg" class="img-responsive" alt="Banner Image">
+</div>
+<div class="container">
+    <div class="breadcrumbs">
+        <ul class="pd-20 f-12">
+            <li class="inline-block text-uppercase" ui-sref="home">home</li> <i class="fa fa-angle-right" aria-hidden="true"></i>
+            <li class="inline-block text-uppercase">brands</li>
+        </ul>
+    </div>
+    <div class="brands-images">
+        {{message}}
+        <div class="row marg0">
+            <div class="col-md-3 col-xs-6" ng-repeat="brand in brands">
+                <div class="brand1">
+                    <figure>
+                        <img ng-src="{{brand.logo | serverimage}}" class="img-responsive" alt="brands">
+                    </figure>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

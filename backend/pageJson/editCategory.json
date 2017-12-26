@@ -1,0 +1,106 @@
+{
+    "title": "Edit Category",
+    "name": "Category",
+    "jsonPage": "viewCategory",
+    "desciption": "",
+    "pageType": "edit",
+    "urlFields": ["_id"],
+    "fields": [{
+        "name": "Name",
+        "type": "text",
+        "tableRef": "name",
+        "placeholder": "Enter Category Name",
+        "id": "name",
+        "onView": true,
+        "view": true,
+        "validation": ["required", "trim", "unique"],
+        "url": ""
+    }, {
+        "name": "Image",
+        "type": "image",
+        "tableRef": "imgLink",
+        "placeholder": "Enter Image Link",
+        "id": "imgLink",
+        "onView": true,
+        "view": true,
+        "option": "single",
+        "validation": ["", "trim", ""],
+        "url": ""
+    }, {
+        "name": "Parent Category",
+        "type": "tags",
+        "tableRef": "category",
+        "placeholder": "Select Parent Category",
+        "id": "parCategory",
+        "searchApi": "searchCall",
+        "fieldType": "",
+        "onView": true,
+        "view": true,
+        "url": "HomeCategory/search",
+        "dropDownField": "name",
+        "dropDownType": "single"
+    }, {
+        "name": "Slug",
+        "type": "text",
+        "tableRef": "slug",
+        "placeholder": "Enter slug",
+        "id": "slug",
+        "validation": [
+            "required",
+            "trim",
+            "unique"
+        ],
+        "url": ""
+    }, {
+        "name": "Size Chart Image",
+        "type": "image",
+        "tableRef": "sizeChartImage",
+        "placeholder": "Enter Size Chart Image",
+        "id": "sizeChartImage",
+        "option": "single",
+        "validation": ["", "trim", ""],
+        "onView": true,
+        "view": true,
+        "url": ""
+    }, {
+        "name": "Status",
+        "type": "tags",
+        "tableRef": "status",
+        "placeholder": "Select Status",
+        "id": "status",
+        "validation": ["required", "trim"],
+        "url": "",
+        "dropDownField": "",
+        "dropDownType": "single",
+        "onView": true,
+        "view": true,
+        "dropDown": ["Enabled", "Disabled"]
+    }],
+    "action": [{
+        "name": "submit",
+        "action": "submitCategory",
+        "stateName": {
+            "page": "page",
+            "json": {
+                "id": "viewCategory"
+            }
+        }
+    }, {
+        "name": "cancel",
+        "sideMenuRedirect": true,
+        "stateName": {
+            "page": "page",
+            "json": {
+                "id": "viewCategory"
+            }
+        }
+    }],
+    "apiCall": {
+        "url": "Category/save",
+        "params": "_id"
+    },
+    "preApi": {
+        "url": "Category/getOne",
+        "params": "_id"
+    }
+}

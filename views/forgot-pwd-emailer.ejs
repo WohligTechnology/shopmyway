@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Hind+Vadodara:400,500,600" rel="stylesheet">
+    <style type="text/css">
+        /*Start of global classes*/
+
+        .align-bottom {
+            vertical-align: bottom;
+        }
+
+        .align-middle {
+            vertical-align: middle;
+        }
+
+        .align-top {
+            vertical-align: top;
+        }
+
+        .clearfix::after {
+            content: '';
+            display: table;
+            clear: both;
+        }
+
+
+        .display-block {
+            display: block;
+        }
+
+        .display-inline {
+            display: inline-block;
+        }
+
+        .display-table {
+            display: table;
+        }
+
+        .display-row {
+            display: table-row;
+        }
+
+        .display-cell {
+            display: table-cell;
+        }
+
+        .img-responsive {
+            max-width: 100%;
+            display: block;
+            height: auto;
+        }
+
+        .list-unstyled {
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .list-inline {
+            padding-left: 0;
+            margin-left: -5px;
+            list-style: none;
+        }
+
+        .list-inline>li {
+            padding-right: 5px;
+            padding-left: 5px;
+            display: inline-block;
+        }
+
+        .pull-left {
+            float: left!important;
+        }
+
+        .pull-right {
+            float: right!important;
+        }
+
+        .relate {
+            position: relative;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-uppercase {
+            text-transform: uppercase;
+        }
+
+        .text-lowercase {
+            text-transform: lowercase;
+        }
+
+        .text-capitalize {
+            text-transform: capitalize;
+        }
+        /*End of global classes*/
+
+        body {
+            font-family: 'Hind Vadodara', sans-serif;
+            font-size: 14px;
+        }
+        /*Start of emailer design*/
+
+        p {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        table>tbody>tr>td {
+            padding: 15px;
+        }
+
+        table.order-product th {
+            width: 200px;
+            background-color: #ededed;
+            padding-top: 10px;
+            padding-right: 15px;
+            padding-bottom: 10px;
+            font-weight: normal;
+        }
+
+        table.order-product th h4 {
+            margin: 5px 0;
+            color: #341314;
+            font-weight: normal
+        }
+
+        table.order-product th:first-child {
+            padding-left: 20px;
+        }
+
+        table.order-product th:last-child {
+            padding-right: 20px;
+        }
+
+        table.order-product tr>td {
+            padding: 10px;
+        }
+
+        table.order-product>tr>th>address {
+            line-height: 1.3;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 12px;
+        }
+        /*End of emailer design*/
+    </style>
+</head>
+
+<body>
+    <table style="width: 600px; margin: 0 auto; border:1px solid #341314">
+        <tbody>
+            <tr>
+                <td style=" padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;">
+                    <div class="clearfix " style="position: relative;">
+                        <div style="width: 140px; float:left; overflow: hidden;">
+                            <img src="http://umber.wohlig.co.in/img/home/logo.png" alt="Logo" class="img-responsive">
+                        </div>
+                        <div style=" width: 75%; color:#341314; float:right; text-align:right;">
+                            <div style=" height: 22px;padding: 18px 0 0; border-bottom: 2px solid #341314; margin-bottom: 2px">
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;">
+                    <div>
+                        <h3 style="color: #ccc;font-size: 30px;margin: 5px 0;text-transform:uppercase">forgot your password?</h3>
+
+                        <ul style="list-style-type: none; padding-left: 0">
+                            <li style="margin-left:0">To change the password for your account, please type in the OTP below.</li>
+                            <li style="margin-left:0">The link will expire in 1 day.</li>
+                        </ul>
+                        <!-- <p style="margin-top: 0; margin-bottom: 10px;"><a href="#" style="color: #341314;"> Siddhesh@wohlig.com</a></p> -->
+                        <div style="width: 300px; padding-bottom: 15px; margin: 0 auto; text-align:center;">
+                            <h3 style="color: #ccc;margin: 5px 0; text-transform:uppercase">one time password</h3>
+                            <span style="width: 25px;height: 25px;margin: 5px; border-bottom: 1px solid #341314;font-size: 25px;
+    font-weight: bold; color: #341314; display: inline-block;line-height: 20px;"><%= otp[0]%></span>
+                            <span style="width: 25px;height: 25px;margin: 5px; border-bottom: 1px solid #341314; color: #341314; display: inline-block;  font-size: 25px;
+    font-weight: bold; line-height: 20px;"><%= otp[1]%></span>
+                            <span style="width: 25px;height: 25px;margin: 5px; border-bottom: 1px solid #341314; color: #341314; display: inline-block; font-size: 25px;
+    font-weight: bold; line-height: 20px;"><%= otp[2]%></span>
+                            <span style="width: 25px;height: 25px;margin: 5px; border-bottom: 1px solid #341314; color: #341314; display: inline-block; font-size: 25px;
+    font-weight: bold; line-height: 20px;"><%= otp[3]%></span>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top; background: #F5F5F5;">
+                    <div style="font-size: 13px;">
+                        <ul style="list-style-type: none; padding-left: 0">
+                            <li style="margin-left:0">If you did not initiate this password reset request, you can safely ignore this email.</li>
+                            <li style="margin-left:0">For any queries, contact us : + 918754410505 </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td style=" padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;background: #341314;">
+                    <div style="color:white;display:table;  font-size: 11px;">
+                        <div style=" width: 400px;display:table-cell; vertical-align: middle;">
+                            Burntumber Fashion Pvt Ltd© Copyright 2015
+                        </div>
+                        <div style="width: 200px; display:table-cell;text-align: right; vertical-align: middle;">
+                            <ul class="list-unstyled list-inline" style="margin: 0">
+                                <li style="margin-left: 0"> Follow us on</li>
+                                <li style="margin-left: 0"><a href="" style="width: 18px; height: 18px;border: 1px dashed white; background: transparent;color:white; display: block;font-size: 12px;text-align: center;"><img src="http://umber.wohlig.co.in/img/emailer/facebook.png" alt="Click on Facebook"  width="12" height="12" style="vertical-align:middle;">
+                                <li  style="margin-left: 0"><a href="" style="width: 18px; height: 18px;border: 1px dashed white; background: transparent;color:white; display: block;font-size: 12px;text-align: center;"><img src="http://umber.wohlig.co.in/img/emailer/twitter.png" alt="Click on twiter" alt="Click on Twitter" width="12" height="12" style="vertical-align:middle;">
+                                <li  style="margin-left: 0"><a href="" style="width: 18px; height: 18px;border: 1px dashed white; background: transparent;color:white; display: block;font-size: 12px;text-align: center;">
+                                    <img src="http://umber.wohlig.co.in/img/emailer/instagram.png" alt="Click on insta"  width="12" height="12" style="vertical-align:middle;"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+</body>
+<html>

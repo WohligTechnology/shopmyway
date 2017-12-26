@@ -1,0 +1,275 @@
+{
+    "title": "Edit Order",
+    "name": "Order",
+    "jsonPage": "viewOrder",
+    "desciption": "",
+    "pageType": "edit",
+    "urlFields": ["_id"],
+    "fields": [{
+            "name": "Order No",
+            "type": "text",
+            "tableRef": "orderNo",
+            "placeholder": "Enter order No",
+            "id": "orderNo",
+            "validation": ["", "trim", "unique"],
+            "url": ""
+        }, {
+            "name": "User",
+            "type": "tags",
+            "tableRef": "user",
+            "placeholder": "Select user",
+            "id": "user",
+            "dropDownField": "email",
+            "dropDownType": "single",
+            "searchApi": "searchCall",
+            "url": "User/search",
+            "validation": ["", "trim", ""]
+        },
+        {
+            "name": "Products",
+            "type": "box",
+            "tableRef": "products",
+            "validation": ["required", "trim", ""],
+            "fields": [{
+                "name": "Product",
+                "type": "text",
+                "tableRef": "product",
+                "placeholder": "Enter product",
+                "dropDownField": "productName",
+                "id": "product",
+                "validation": ["", "trim", ""],
+                "url": "",
+                "onView": true
+            }, {
+                "name": "Quantity",
+                "type": "number",
+                "tableRef": "quantity",
+                "placeholder": "Enter quantity",
+                "id": "quantity",
+                "validation": ["", "trim", ""],
+                "url": "",
+                "onView": true
+            }, {
+                "name": "Price",
+                "type": "number",
+                "tableRef": "price",
+                "placeholder": "Enter price",
+                "id": "price",
+                "validation": ["", "trim", ""],
+                "url": "",
+                "onView": true
+            }, {
+                "name": "Status",
+                "type": "tags",
+                "tableRef": "status",
+                "placeholder": "Enter Status",
+                "id": "status",
+                "validation": ["", "trim", ""],
+                "url": "",
+                "dropDownField": "",
+                "dropDownType": "single",
+                "dropDown": ["accept", "returned", "cancelled"]
+            }]
+        },
+        {
+            "name": "Total Amount",
+            "type": "number",
+            "tableRef": "totalAmount",
+            "placeholder": "Enter totalAmount",
+            "id": "totalAmount",
+            "validation": ["", "trim", "unique"],
+            "url": ""
+        }, {
+            "name": "selectedDiscount",
+            "type": "tags",
+            "tableRef": "selectedDiscount",
+            "placeholder": "Select selectedDiscount",
+            "id": "selectedDiscount",
+            "dropDownField": "name",
+            "dropDownType": "single",
+            "searchApi": "searchCall",
+            "url": "Discount/search",
+            "validation": ["", "trim", ""]
+        }, {
+            "name": "Discount Amount",
+            "type": "number",
+            "tableRef": "discountAmount",
+            "placeholder": "Enter discountAmount",
+            "id": "discountAmount",
+            "validation": ["", "trim", "unique"],
+            "url": ""
+        }, {
+            "name": "Shipping Amount",
+            "type": "number",
+            "tableRef": "shippingAmount",
+            "placeholder": "Enter shippingAmount",
+            "id": "shippingAmount",
+            "validation": ["", "trim", "unique"],
+            "url": ""
+        }, {
+            "name": "Payment Method",
+            "type": "tags",
+            "tableRef": "paymentMethod",
+            "placeholder": "Enter paymentMethod",
+            "id": "paymentMethod",
+            "validation": ["", "trim", ""],
+            "url": "",
+            "dropDownField": "",
+            "dropDownType": "single",
+            "dropDown": ["cod", "cc", "dc", "netbank"]
+        }, {
+            "name": "Order Status",
+            "type": "tags",
+            "tableRef": "orderStatus",
+            "placeholder": "Enter orderStatus",
+            "id": "orderStatus",
+            "validation": ["", "trim", ""],
+            "url": "",
+            "dropDownField": "",
+            "dropDownType": "single",
+            "dropDown": ["processing", "shipped", "delivered", "returned", "cancelled", "pending"]
+        }, {
+            "name": "Payment Status",
+            "type": "tags",
+            "tableRef": "paymentStatus",
+            "placeholder": "Enter Payment Status",
+            "id": "paymentStatus",
+            "validation": ["", "trim", ""],
+            "url": "",
+            "dropDownField": "",
+            "dropDownType": "single",
+            "dropDown": ["Success", "Aborted", "Failure", "Illegal"]
+        },
+        {
+            "name": "Courier Type",
+            "type": "tags",
+            "tableRef": "courierType",
+            "placeholder": "Select Courier Type",
+            "id": "courierType",
+            "dropDownField": "name",
+            "dropDownType": "single",
+            "searchApi": "searchCall",
+            "url": "Courier/search",
+            "validation": ["", "trim", ""]
+        },
+        {
+            "name": "Courier Amount",
+            "type": "number",
+            "tableRef": "courierAmount",
+            "placeholder": "Enter Courier Amount",
+            "id": "courierAmount",
+            "validation": ["", "trim", ""],
+            "url": ""
+        },
+        {
+            "name": "Tracking Id",
+            "type": "text",
+            "tableRef": "trackingId",
+            "placeholder": "Enter trackingId",
+            "id": "trackingId",
+            "validation": ["", "trim", ""],
+            "url": ""
+        }, {
+            "name": "Returned Products",
+            "type": "box",
+            "tableRef": "returnedProducts",
+            "validation": ["required", "trim", ""],
+            "fields": [{
+                    "name": "Product",
+                    "type": "text",
+                    "tableRef": "product",
+                    "placeholder": "Enter product",
+                    "dropDownField": "productName",
+                    "id": "product",
+                    "validation": ["", "trim", ""],
+                    "url": "",
+                    "onView": true
+                }, {
+                    "name": "Quantity",
+                    "type": "number",
+                    "tableRef": "quantity",
+                    "placeholder": "Enter quantity",
+                    "id": "quantity",
+                    "validation": ["", "trim", ""],
+                    "url": "",
+                    "onView": true
+                }, {
+                    "name": "price",
+                    "type": "number",
+                    "tableRef": "price",
+                    "placeholder": "Enter price",
+                    "id": "price",
+                    "validation": ["", "trim", ""],
+                    "url": "",
+                    "onView": true
+                }, {
+                    "name": "Status",
+                    "type": "tags",
+                    "tableRef": "status",
+                    "placeholder": "Enter Status",
+                    "id": "status",
+                    "validation": ["", "trim", ""],
+                    "url": "",
+                    "dropDownField": "",
+                    "dropDownType": "single",
+                    "dropDown": ["returned", "cancelled"]
+                },
+                {
+                    "name": "comment",
+                    "type": "text",
+                    "tableRef": "comment",
+                    "placeholder": "Enter comment",
+                    "id": "comment",
+                    "validation": ["", "trim", ""],
+                    "url": "",
+                    "onView": true
+                }
+            ]
+        }, {
+            "name": "Comment",
+            "type": "text",
+            "tableRef": "comment",
+            "placeholder": "Enter comment",
+            "id": "comment",
+            "validation": ["", "trim", ""],
+            "url": "",
+            "onView": true
+        }, {
+            "name": "gift Name",
+            "type": "gifts",
+            "tableRef": "gifts",
+            "placeholder": "Enter gifts",
+            "id": "gifts",
+            "validation": ["", "trim", ""],
+            "url": "",
+            "onView": true
+        }
+    ],
+    "action": [{
+        "name": "submit",
+        "action": "submitOrder",
+        "stateName": {
+            "page": "page",
+            "json": {
+                "id": "viewOrder"
+            }
+        }
+    }, {
+        "name": "cancel",
+        "sideMenuRedirect": true,
+        "stateName": {
+            "page": "page",
+            "json": {
+                "id": "viewOrder"
+            }
+        }
+    }],
+    "apiCall": {
+        "url": "Order/save",
+        "params": "_id"
+    },
+    "preApi": {
+        "url": "Order/getOne",
+        "params": "_id"
+    }
+}

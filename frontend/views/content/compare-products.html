@@ -1,0 +1,173 @@
+<div>
+    <img src="img/listing/common.jpg" alt="" class="img-responsive">
+</div>
+<div class="container">
+    <div class="content-spacing">
+        <div class="breadCrumbs-letter">
+            <ul class="list-unstyled list-inline text-uppercase">
+                <li>
+                    <a href="">home</a>
+                </li>
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                <li>
+                    <a href="">men's wear</a>
+                </li>
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                <li>
+                    <a href="">casual shirts</a>
+                </li>
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                <li>
+                    <a href="">compare products</a>
+                </li>
+            </ul>
+        </div>
+        <div class="compare-section">
+            <h1 class="compare--borderline">Compare Products</h1>
+            <div class="compare-table">
+                <div class="test relate table-responsive ">
+                    <table class="table  table-responsive table-bordered product-align ">
+                        <thead>
+                            <tr>
+                                <th colspan="5">
+                                    <div class="product-dtls ">Product Details</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div style="width: inherit">
+                                        Product
+                                    </div>
+
+                                </td>
+                                <td ng-repeat="product in products">
+                                    {{product.productName}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="width: inherit">
+                                        Image
+                                    </div>
+
+                                </td>
+                                <td ng-repeat="product in products">
+                                    <div class="compare-img relate text-center">
+                                        <img src="{{product.images[0].image|serverimage}}" alt="Compared Product" class="img-responsive ">
+                                        <button class="btn btn--brown btn-quick-view text-uppercase" ng-click="quickviewProduct(product)">quick view</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="width: inherit"> Price </div>
+                                </td>
+                                <td ng-repeat="product in products">&#8377; {{product.price |number:0}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="width: inherit"> Product No. </div>
+                                </td>
+                                <td ng-repeat="product in products">{{product.name}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="width: inherit"> Brand </div>
+                                </td>
+                                <td ng-repeat="product in products">{{product.brand.name}}</td>
+                            </tr>
+                            <tr>
+                                <td class="relate">
+                                    <div style="width: inherit">Summary </div>
+                                    <div class="pluse-icon" data-toggle="collapse" data-target="#demo">
+                                        <img src="../img/compare/pluse.png" class="img-responsive">
+                                    </div>
+                                </td>
+                                <td ng-repeat="product in products">
+                                    <div>
+                                        <p>{{product.description}}</p>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!--<div class="plus-detail">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                </div>-->
+                <div class="detail-table collapse table-responsive" id="demo">
+                    <table class="table table-bordered details-table detail-align">
+                        <thead>
+                            <tr>
+                                <th colspan="5">
+                                    <div class="product-dtls">Details</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div style="width: inherit">Collection </div>
+                                </td>
+                                <td ng-repeat="product in products">{{product.prodCollection.name}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="width: inherit">Style</div>
+                                </td>
+                                <td ng-repeat="product in products">{{product.style}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="width: inherit">Fabric</div>
+                                </td>
+                                <td ng-repeat="product in products">{{product.fabric.name}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="width: inherit">Washcare</div>
+                                </td>
+                                <td ng-repeat="product in products">
+                                    <div>
+                                        <p>
+                                            {{product.washcare}}
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="width: inherit">Basecolor</div>
+                                </td>
+                                <td ng-repeat="product in products">{{product.color.name}}</td>
+                            </tr>
+                            <!-- <tr>
+                                <td>Offer</td>
+                                <td>Buy 1 Get 1 Free</td>
+                                <td></td>
+                                <td>Buy 1 Get 1 Free</td>
+                                <td></td>
+                            </tr> -->
+                            <tr>
+                                <td></td>
+                                <td ng-repeat="product in products">
+                                    <div>
+                                        <button class="compare--btn" ui-sref="individual-page({id: product.productId})">view details</button>
+                                    </div>
+                                    <div>
+                                        <button class="compare--btn" ng-click="removeCompareProduct(product)"><i class="fa fa-trash" aria-hidden="true"></i>remove</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
