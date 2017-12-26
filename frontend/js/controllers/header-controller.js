@@ -1,4 +1,4 @@
-myApp.controller('headerCtrl', function ($rootScope, $scope, NavigationService, $state, WishlistService,
+myApp.controller('headerCtrl', function ($rootScope, $scope, NavigationService, $state, $timeout, WishlistService,
         TemplateService, CartService, UserService, $uibModal, CategoryService, ProductService) {
         $scope.template = TemplateService;
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
@@ -152,20 +152,37 @@ myApp.controller('headerCtrl', function ($rootScope, $scope, NavigationService, 
         if (userId.userId != null) {
             CartService.getCart(userId, function (data) {
                 $scope.cart = data.data.data;
+                _.each($scope.cart.products, function (product) {
+                    if (product.product.quantity == 0) {
+                        $scope.cartDisable = true;
+                    }
+                });
             });
 
         } else {
             //TODO: Implement without login
-
-            $scope.cart = $.jStorage.get("cart");
-
-
+            if ($.jStorage.get("cart")) {
+                $scope.cart = $.jStorage.get("cart");
+                _.each($scope.cart.products, function (product) {
+                    if (product.product.quantity == 0) {
+                        $scope.cartDisable = true;
+                    }
+                })
+            }
         }
 
         $scope.view = false;
+        $scope.navActiveTab = 0; // Default set to index 0 i.e login button
         $scope.viewLogin = function () {
             $scope.view = !$scope.view;
         }
+        // Used to switch from signup to login & login to sign up tab
+        $scope.changeToLoginTab = function () {
+            $scope.view = false;
+        };
+        $scope.changeToSignUpTab = function () {
+            $scope.view = true;
+        };
         //To change the icon for UIB accordian
         $scope.accordHeader = false;
         //To show side navigation backdrop design 
@@ -203,8 +220,6 @@ myApp.controller('headerCtrl', function ($rootScope, $scope, NavigationService, 
         //End of side nav
         //To Close side nav when hovering online
         $scope.slideUpSideNav = function () {
-            //  alert('enter');
-
             $('.side-nav').removeClass('side-nav-menu-in');
             $('.side-nav').addClass('side-nav-menu-out');
             $('.navbar__sideNav').removeClass('hamburger-cross');
@@ -258,6 +273,17 @@ myApp.controller('headerCtrl', function ($rootScope, $scope, NavigationService, 
 
 
         });
+        //
+        $scope.redirectCheckOut = function (cart) {
+            console.log("cart", cart);
+            _.each(cart, function (pro) {
+                if (pro.product.quantity == 0) {
+                    $scope.cartDisable = true;
+                    $scope.cartErr = "Product is Out of Stock";
+                    return false
+                }
+            });
+        }
 
     })
     .controller('wishlistModalCtrl', function ($scope, $state, $uibModalInstance, UserService, CartService, WishlistService) {

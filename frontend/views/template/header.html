@@ -74,7 +74,8 @@
 
                             </li>
                             <div class="dropdown-menu__btn text-center ">
-                                <a ui-sref="checkout "><button class="btn btn--brown-checkout" ng-disabled="!cart.products.length">CHECKOUT</button></a>
+                                <a ui-sref="checkout"> <button class="btn btn--brown-checkout" ng-disabled="!cart.products.length || cartDisable ">CHECKOUT</button></a>
+                                <p ng-if="cartDisable">{{cartErr}}</p>
                             </div>
                         </ul>
 
@@ -147,6 +148,7 @@
                             <span ng-if="!cart.products.length ">0</span> )</a>
                         <ul class="cart-dropdown-menu dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown ">
                             <li ng-repeat="product in cart.products ">
+
                                 <div class="dropdown-menu__dropdown-cart ">
                                     <div class="inline-block img ">
                                         <img ng-src="{{product.product.images[0].image | serverimage}} " alt="shirt_img
@@ -173,7 +175,6 @@
                                         </p>
                                     </div>
                                 </div>
-
                             </li>
                             <div class="dropdown-menu__btn text-center ">
                                 <a ui-sref="checkout "><button class="btn btn--brown-checkout" ng-disabled="!cart.products.length">CHECKOUT</button></a>
@@ -285,12 +286,12 @@
         <nav>
             <div class="mobview-links mobview-links-menu-in">
                 <ul class="list-unstyled text-capitalize">
-                    <li><a ui-sref="home">home</a></li>
-                    <li ng-click="closeCategires();"><a href="">products</a></li>
-                    <li><a ui-sref="about">about us</a></li>
-                    <li><a ui-sref="contactus">contact us</a></li>
-                    <li><a ui-sref="blogs">Blogs</a></li>
-                    <li><a ui-sref="storelocator">store locator</a></li>
+                    <li><a ui-sref="home"><i class="fa fa-home" aria-hidden="true"></i>home</a></li>
+                    <li ng-click="closeCategires();"><a href=""><i class="fa fa-shirtsinbulk" aria-hidden="true"></i>products</a></li>
+                    <li><a ui-sref="about"><i class="fa fa-building" aria-hidden="true"></i>about us</a></li>
+                    <li><a ui-sref="contactus"><i class="fa fa-mobile" aria-hidden="true"></i>contact us</a></li>
+                    <li><a ui-sref="blogs"><i class="fa fa-rss" aria-hidden="true"></i>Blogs</a></li>
+                    <li><a ui-sref="storelocator"><i class="fa fa-street-view" aria-hidden="true"></i>store locator</a></li>
                     <li><a ui-sref="mycart "><i class="fa fa-shopping-cart "></i>My Cart</a></li>
                     <li><a ui-sref="myaccount({view: 'wishlistTab'})"><i class="fa fa-heart"></i>My Wishlist</a></li>
                     <li ng-if="!loggedUser"><a ng-click="openLoginModal10(); "><i class="fa fa-user" aria-hidden="true"></i>My Account</a></li>

@@ -517,6 +517,7 @@ myApp.controller('CheckoutCtrl', function ($scope, OrderService, ProductService,
     CartService.getCart(userData, function (data) {
         if (data.data.data)
             $scope.orderTable = data.data.data;
+        // $scope.orderTable = $.jStorage.get("myCart");
         // if ($scope.orderTable) {
         //     for (var i = 0; i <= $scope.orderTable.products.length - 1; i++) {
         //         if ($scope.orderTable.products[i].quantity > $scope.orderTable.products[i].product.quantity) {
@@ -527,13 +528,14 @@ myApp.controller('CheckoutCtrl', function ($scope, OrderService, ProductService,
         // } else {
         //     $state.go("mycart");
         // }
-        if ($scope.orderTable && $scope.orderTable.products) {
+        if ($scope.orderTable) {
             $scope.grandTotal = CartService.getTotal($scope.orderTable.products);
             if ($.jStorage.get("discountValues")) {
                 // discountAmount: 3394, grandTotalAfterDiscount: 3394, selectedDiscount: Object, totalAmountOfOrder: 6788
                 var discountTypeObjectData = $.jStorage.get("discountValues");
                 $scope.discountAmount = discountTypeObjectData.discountAmount;
                 $scope.grandTotalAfterDiscount = discountTypeObjectData.grandTotalAfterDiscount;
+                $scope.grandTotalAfterGst = discountTypeObjectData.grandTotalAfterGst;
                 $scope.totalAmountOfOrder = discountTypeObjectData.totalAmountOfOrder;
             }
         }
@@ -2014,6 +2016,13 @@ myApp.controller('CheckoutCtrl', function ($scope, OrderService, ProductService,
     var clickCounter = 0;
     $scope.proceedToDetailTab = function () {
         $scope.view = 'detailTab';
+        // var cart = {};
+        // cart.product = $.jStorage.get("myCart");
+        // cart.userId = $.jStorage.get("userId");
+        // cart.accessToken = $.jStorage.get("accessToken");
+        // CartService.saveCartWithDiscount(cart, function (data) {
+        //     console.log("in detailtab cart save", data)
+        // })
     };
 
 })

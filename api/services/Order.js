@@ -1,3 +1,10 @@
+//import { prependListener } from 'cluster';
+
+// import { disconnect } from 'cluster';
+var autoIncrement = require('mongoose-auto-increment');
+autoIncrement.initialize(mongoose);
+require('mongoose-middleware').initialize(mongoose);
+
 var crypto = require('crypto');
 var http = require('http'),
     fs = require('fs'),
@@ -13,6 +20,7 @@ var schema = new Schema({
         unique: true,
         uniqueCaseInsensitive: true
     },
+    date: Date,
     billingAddress: {
         line1: String,
         line2: String,
@@ -46,7 +54,6 @@ var schema = new Schema({
             required: true
         },
         quantity: Number,
-        price: Number,
         style: String,
         color: String,
         status: {
@@ -55,20 +62,31 @@ var schema = new Schema({
             default: 'accept'
         },
         comment: String,
-        taxPercent: String
+        unitPrice: Number,
+        discountAmount: Number,
+        discountPercent:Number,
+        discountPriceApplied:Number,
+        taxAmt: Number,
+        taxPercent: Number,
+        finalAmt: Number
     }],
     totalAmount: {
         type: Number,
         required: true
     },
-    discountAmount: Number,
+    gst: Number,
+    subTotal: Number,
     shippingAmount: Number,
-    amountAfterDiscount: Number,
+    totalDiscount: Number,
+    invoiceNumberIncr: Number,
+    invoiceNumber: String,
+    orderNumberIncr: Number,
     paymentMethod: {
         type: String,
         enum: ['cod', 'cc', 'dc', 'netbank'],
         default: 'cod'
     },
+    invoicePdfName: String,
     courierType: {
         type: Schema.Types.ObjectId,
         ref: 'Courier'
@@ -79,6 +97,11 @@ var schema = new Schema({
         type: String,
         enum: ['processing', 'shipped', 'delivered', 'returned', 'cancelled', 'pending'],
         default: 'processing'
+    },
+    invoiceStatus: {
+        type: String,
+        enum: ["unmoderated", "moderated"],
+        default: 'unmoderated'
     },
     discountCouponId: {
         type: Schema.Types.ObjectId,
@@ -127,6 +150,20 @@ var schema = new Schema({
     paymentResponse: {
         type: {}
     }
+});
+
+schema.plugin(autoIncrement.plugin, {
+    model: 'Order',
+    field: 'invoiceNumberIncr',
+    startAt: 0000001,
+    incrementBy: 1
+});
+
+schema.plugin(autoIncrement.plugin, {
+    model: 'Order',
+    field: 'orderNumberIncr',
+    startAt: 0000001,
+    incrementBy: 1
 });
 
 schema.plugin(deepPopulate, {
@@ -312,7 +349,7 @@ var model = {
         } else {
             Cart.getCart(data, function (err, cart) {
                 if (!_.isEmpty(cart)) {
-                    // console.log("cart: ", cart);
+                    //  console.log("$$$$$$$$$$$$$$$", cart);
                     var order = {};
                     order.firstName = data.firstName;
                     order.lastName = data.lastName;
@@ -326,23 +363,35 @@ var model = {
                     }
                     // 59f06bc7647252477439a1e4
                     order.totalAmount = 0;
+                    order.totalDiscount = 0;
                     for (var idx = 0; idx < cart.products.length; idx++) {
                         var product = cart.products[idx];
                         var orderData = {
                             product: mongoose.Types.ObjectId(product.product._id),
                             quantity: product.quantity,
-                            price: product.quantity * product.product.price,
+                            price: product.quantity * _.round(product.product.price),
                             color: product.product.color.name,
                             style: product.product.style,
+                            discountAmount: product.discountAmount,
                             comment: product.comment
                         };
                         if (!order.products) {
                             order.products = [];
                         }
                         order.products.push(orderData);
-                        order.totalAmount += orderData.price;
+                        order.totalAmount += _.round(orderData.price);
+                        if (orderData.discountAmount) {
+                            order.totalDiscount += _.round(orderData.discountAmount);
+                            order.totalAmount -= _.round(orderData.discountAmount);
+                        } else {
+                            order.totalDiscount += 0;
+                            order.totalAmount -= 0;
+                        }
                     }
                     order.user = mongoose.Types.ObjectId(data.userId);
+                    order.gst = _.round(cart.gst);
+                    order.totalAmount += _.round(order.gst);
+                    order.totalAmount = _.round(order.totalAmount)
                     order.shippingAmount = 0;
                     if (data.selectedDiscount) {
                         order.discountAmount = data.selectedDiscount.discountAmount;
@@ -353,9 +402,10 @@ var model = {
                     }
                     order.paymentMethod = paymentMethod;
                     order.gifts = gifts;
+
                     // console.log("order: ", order);
                     Order.saveData(order, function (err, data1) {
-                        // console.log("$$$$$$$$$order: ", order);
+                        //console.log("$$$$$$$$$order: ", order);
                         if (err) {
                             callback(err, null);
                         } else if (data1) {
@@ -419,6 +469,19 @@ var model = {
                                         // callback(null, order);
                                     }
                                 }
+                                model.generateInvoiceOrOrderYear("OR", function (err, orderYear) {
+                                    num = order.orderNumberIncr;
+                                    num = '' + num;
+                                    while (num.length < 7) {
+                                        num = '0' + num;
+                                    }
+                                    order.orderNo = orderYear + num;
+                                    Order.saveData(order, function (err, data) {
+                                        if (err) {
+                                            console.log(err);
+                                        }
+                                    })
+                                })
                                 callback(null, order);
                             });
                         }
@@ -498,7 +561,7 @@ var model = {
                                 }).exec(cbSubWaterfall);
                             },
                             function deductQuantity(foundProduct, cbSubWaterfall1) {
-                                var deductPrice = foundProduct.price * product.quantity;
+                                var deductPrice = _.round(foundProduct.price) * product.quantity;
                                 if (data.return) {
                                     var orderStatus = "returned"
                                 } else {
@@ -511,7 +574,7 @@ var model = {
                                     $inc: {
                                         "products.$.quantity": -product.quantity,
                                         "products.$.price": -deductPrice,
-                                        'totalAmount': -deductPrice
+                                        // 'totalAmount': 0,
                                     },
                                     $addToSet: {
                                         returnedProducts: {
@@ -522,6 +585,9 @@ var model = {
                                             comment: product.comment
                                         }
                                     },
+                                    $set: {
+                                        totalAmount: 0
+                                    }
                                     // $set: {
                                     //     orderStatus: orderStatus
                                     // }
@@ -534,7 +600,7 @@ var model = {
                                         });
                                         // console.log("Cancelled product: ", updatedProduct);
                                         Order.saveData(updatedProduct, function (err, order) {
-                                            console.log("Saving updated order: ", err, order);
+                                            // console.log("Saving updated order: ", err, order);
                                             updatedOrder.push(updatedProduct);
                                             cbSubWaterfall1(null, order);
                                         });
@@ -562,7 +628,7 @@ var model = {
     // inputDetails: user - user unique id
     //               status - status of orders to be retrieved - cancelled/returned
     getCancelledOrdersForUser: function (data, callback) {
-        console.log("data", data);
+        // console.log("data getCancelledOrdersForUser", data);
         var returnCanelProduct = [];
         var order = [];
         var index = 0;
@@ -593,11 +659,9 @@ var model = {
                                         order[index].totalAmount = value.totalAmount;
                                         order[index].returnCancelProduct = [];
                                         _.each(value.returnedProducts, function (returnProduct) {
-                                            console.log("status", returnProduct.status);
+                                            // console.log("status", returnProduct.status);
                                             if (returnProduct.status == data.status) {
-                                                console.log("match");
                                                 order[index].returnCancelProduct.push(returnProduct);
-                                                console.log("match2", order[index].returnCancelProduct);
                                             }
                                         });
                                         if (_.isEmpty(order[index].returnCancelProduct)) {
@@ -635,6 +699,7 @@ var model = {
     },
     //API to send order placed Email
     ConfirmOrderPlacedMail: function (data, callback) {
+
         User.findOne({
             _id: data._id
         }).exec(function (error, created) {
@@ -653,6 +718,7 @@ var model = {
 
                         var emailData = {};
                         var total = 0;
+                        var cartAmount = 0;
                         emailData.email = created.email;
                         emailData.subject = "BurntUmber product Order";
                         emailData.filename = "confirmed-product-order-emailer.ejs";
@@ -667,17 +733,31 @@ var model = {
                         emailData.billingAddress = orderss.billingAddress;
                         emailData.shippingAddress = orderss.shippingAddress;
                         emailData.shipping = orderss.shippingAmount;
-                        if (orderss.discountAmount) {
-                            emailData.discount = orderss.discountAmount;
+                        // if (orderss.discountAmount) {
+                        //     emailData.discount = orderss.discountAmount;
+                        // } else {
+                        //     emailData.discount = 0;
+                        // }
+                        emailData.discount = 0;
+                        emailData.cartAmount = 0;
+                        if (orderss.gst) {
+                            emailData.tax = _.round(orderss.gst);
                         } else {
-                            emailData.discount = 0;
+                            emailData.tax = 0;
                         }
-                        emailData.tax = 0;
-                        emailData.totalAmount = orderss.totalAmount;
-                        // _.each(emailData.order, function (n) {
-                        //     total = total + n.price;
-                        // })
-                        // emailData.totalAmount = total;
+                        _.each(emailData.order, function (n) {
+                            emailData.cartAmount = emailData.cartAmount + (_.round(n.product.price) * n.quantity);
+                        });
+                        emailData.cartAmount = _.round(emailData.cartAmount);
+                        emailData.totalAmount = _.round(orderss.totalAmount);
+                        _.each(emailData.order, function (n) {
+                            if (n.discountAmount) {
+                                emailData.discount += _.round(n.discountAmount);
+                            } else {
+                                emailData.discount += 0;
+                            }
+                        });
+                        emailData.discount = _.round(emailData.discount);
                         Config.ConfirmOrderPlacedMail(emailData, function (err, response) {
                             if (err) {
                                 console.log("error in email", err);
@@ -746,17 +826,32 @@ var model = {
                         emailData.billingAddress = orderss.billingAddress;
                         emailData.shippingAddress = orderss.shippingAddress;
                         emailData.shipping = orderss.shippingAmount;
-                        if (orderss.discountAmount) {
-                            emailData.discount = orderss.discountAmount;
+                        emailData.discount = 0;
+                        emailData.cartAmount = 0;
+                        if (orderss.gst) {
+                            emailData.tax = _.round(orderss.gst);
                         } else {
-                            emailData.discount = 0;
+                            emailData.tax = 0;
                         }
-                        emailData.tax = 0;
-                        // emailData.totalAmount = orderss.totalAmount;
+                        emailData.totalAmount = _.round(orderss.totalAmount);
                         _.each(emailData.order, function (n) {
-                            total = total + n.price;
+                            if (n.discountAmount) {
+                                emailData.discount += _.round(n.discountAmount);
+                            } else {
+                                emailData.discount += 0;
+                            }
                         })
-                        emailData.totalAmount = total;
+                        emailData.discount = _.round(emailData.discount);
+
+                        // emailData.totalAmount = orderss.totalAmount;
+                        // _.each(emailData.order, function (n) {
+                        //     total = total + n.price;
+                        // })
+                        // emailData.totalAmount = _.round(total);
+                        _.each(emailData.order, function (n) {
+                            emailData.cartAmount = emailData.cartAmount + (_.round(n.product.price) * n.quantity);
+                        });
+                        emailData.cartAmount = _.round(emailData.cartAmount);
                         Config.returnedProductEmail(emailData, function (err, response) {
                             if (err) {
                                 console.log("error in email", err);
@@ -814,17 +909,32 @@ var model = {
                         emailData.billingAddress = orderss.billingAddress;
                         emailData.shippingAddress = orderss.shippingAddress;
                         emailData.shipping = orderss.shippingAmount;
-                        if (orderss.discountAmount) {
-                            emailData.discount = orderss.discountAmount;
+                        emailData.discount = 0;
+                        emailData.cartAmount = 0;
+                        if (orderss.gst) {
+                            emailData.tax = _.round(orderss.gst);
                         } else {
-                            emailData.discount = 0;
+                            emailData.tax = 0;
                         }
-                        emailData.tax = 0;
+                        emailData.totalAmount = orderss.totalAmount;
+                        _.each(emailData.order, function (n) {
+                            if (n.discountAmount) {
+                                emailData.discount += _.round(n.discountAmount);
+                            } else {
+                                emailData.discount += 0;
+                            }
+                        })
+                        emailData.discount = _.round(emailData.discount);
+
                         // emailData.totalAmount = orderss.totalAmount;
                         _.each(emailData.order, function (n) {
                             total = total + n.price;
                         })
-                        emailData.totalAmount = total;
+                        emailData.totalAmount = _.round(total);
+                        _.each(emailData.order, function (n) {
+                            emailData.cartAmount = emailData.cartAmount + (_.round(n.product.price) * n.quantity);
+                        });
+                        emailData.cartAmount = _.round(emailData.cartAmount);
                         Config.cancelProductEmail(emailData, function (err, response) {
                             if (err) {
                                 console.log("error in email", err);
@@ -881,13 +991,26 @@ var model = {
                         emailData.billingAddress = orderss.billingAddress;
                         emailData.shippingAddress = orderss.shippingAddress;
                         emailData.shipping = orderss.shippingAmount;
-                        if (orderss.discountAmount) {
-                            emailData.discount = orderss.discountAmount;
+                        emailData.discount = 0;
+                        emailData.cartAmount = 0;
+                        if (orderss.gst) {
+                            emailData.tax = _.round(orderss.gst);
                         } else {
-                            emailData.discount = 0;
+                            emailData.tax = 0;
                         }
-                        emailData.tax = 0;
-                        emailData.totalAmount = orderss.totalAmount;
+                        emailData.totalAmount = _.round(orderss.totalAmount);
+                        _.each(emailData.order, function (n) {
+                            if (n.discountAmount) {
+                                emailData.discount += _.round(n.discountAmount);
+                            } else {
+                                emailData.discount += 0;
+                            }
+                        })
+                        emailData.discount = _.round(emailData.discount);
+                        _.each(emailData.order, function (n) {
+                            emailData.cartAmount = emailData.cartAmount + (_.round(n.product.price) * n.quantity);
+                        });
+                        emailData.cartAmount = _.round(emailData.cartAmount);
                         // _.each(emailData.order, function (n) {
                         //     total = total + n.price;
                         // })
@@ -948,16 +1071,29 @@ var model = {
                         emailData.billingAddress = orderss.billingAddress;
                         emailData.shippingAddress = orderss.shippingAddress;
                         emailData.shipping = orderss.shippingAmount;
-                        if (orderss.discountAmount) {
-                            emailData.discount = orderss.discountAmount;
+                        emailData.discount = 0;
+                        emailData.cartAmount = 0;
+                        if (orderss.gst) {
+                            emailData.tax = _.round(orderss.gst);
                         } else {
-                            emailData.discount = 0;
+                            emailData.tax = 0;
                         }
-                        emailData.tax = 0;
-                        emailData.totalAmount = orderss.totalAmount;
-                        // _.each(emailData.order, function (n) {
-                        //     total = total + n.price;
-                        // })
+                        emailData.totalAmount = _.round(orderss.totalAmount);
+                        _.each(emailData.order, function (n) {
+                            if (n.discountAmount) {
+                                emailData.discount += _.round(n.discountAmount);
+                            } else {
+                                emailData.discount += 0;
+                            }
+                        })
+                        emailData.discount = _.round(emailData.discount);
+                        _.each(emailData.order, function (n) {
+                            emailData.cartAmount = emailData.cartAmount + (_.round(n.product.price) * n.quantity);
+                        });
+                        emailData.cartAmount = _.round(emailData.cartAmount);
+                        _.each(emailData.order, function (n) {
+                            total = total + n.price;
+                        })
                         // emailData.totalAmount = total;
                         Config.shippedProductEmail(emailData, function (err, response) {
                             if (err) {
@@ -981,69 +1117,135 @@ var model = {
             }
         })
     },
-
-    Invoice: function Invoice(actualPrice, discountPrice, discountPercent, priceAfterDiscount, taxAmt, taxPercent, finalAmt) {
-        this.actualPrice = actualPrice;
-        this.discountPrice = discountPrice;
-        this.discountPercent = discountPercent;
-        this.priceAfterDiscount = priceAfterDiscount;
-        this.taxAmt = taxAmt;
-        this.taxPercent = taxPercent;
-        this.finalAmt = finalAmt;
+    generateInvoiceOrOrderYear: function (str, callback) {
+        var today = new Date();
+        var lastTwoDigitYear = today.getFullYear().toString().substr(2, 2);
+        var dateLimit = new Date(today.getFullYear().toString() + "-04-01");
+        var strYear = "";
+        if (today > dateLimit) {
+            strYear = lastTwoDigitYear + (parseInt(lastTwoDigitYear) + 1).toString();
+        } else {
+            strYear = (parseInt(lastTwoDigitYear) - 1).toString() + lastTwoDigitYear;
+        }
+        callback(null, str + strYear.toString());
     },
-
     generateInvoice: function (data, callback) {
         var taxPercent = 0;
         var taxAmt = 0;
         var finalAmt = 0;
-        var actualPrice = 0;
+        var unitPrice = 0;
+        var price = 0;
         var discountPercent = 0;
-        var taxLimiterWithDiscount = 1000;
-        var taxLimiterWithoutDiscount = 1000;
-        var priceAfterDiscount = 0;
-        invoiceInfo = [];
+        var discountPrice = 0;
+        var discountPriceApplied = 0;
+        var taxLimiter = 1000;
+        var gst = 0;
+        var subTotal = 0;
+        var totalDiscount = 0;
+        var mrp=0;
         Order.findOne({
-            _id: data._id
-        }).exec(function (err, order) {
-            var discountPrice = order.discountAmount;
-            _.each(order.products, function (product, async_callback) {
-                // actualPrice = data.price;
-                // discountPercent = (discountPrice * 100) / actualPrice;
-                // if (order.discountAmount > 0) {
-                //     priceAfterDiscount = actualPrice - discountPrice;
-                //     if (priceAfterDiscount <= taxLimiterWithDiscount) {
-                //         taxPercent = 5;
-                //     } else {
-                //         taxPercent = 12;
-                //     }
-                //     taxAmt = ((taxPercent / 100) * discountedAmt);
-                //     finalAmt = discountedAmt + taxAmt;
-                // } else {
-                //     finalAmt = data.price;
-                //     priceAfterDiscount = finalAmt;
-                //     if (finalAmt > taxLimiterWithoutDiscount) {
-                //         taxPercent = 12;
-                //         taxAmt = 0.12 * finalAmt;
-                //         actualPrice = finalAmt - taxAmt;
-                //     } else {
-                //         taxPercent = 5;
-                //         taxAmt = 0.05 * finalAmt;
-                //         actualPrice = finalAmt - taxAmt;
-                //     }
-                // }
-                product.taxPercent = 5;
+            _id: data.orderId
+        }).lean().deepPopulate("products.product user").exec(function (err, order) {
+            _.each(order.products, function (product, index) {
+                price = _.round(product.product.price)*product.quantity;
+                mrp = _.round(product.product.mrp);
+                if (product.discountAmount != undefined) {
+                    discountPrice = _.round((product.discountAmount));
+                }
+                else{
+                    discountPrice =0;
+                }
+                priceAfterDiscount = price - discountPrice;
+                if (priceAfterDiscount <= taxLimiter) {
+                    taxPercent = 5;
+                } else {
+                    taxPercent = 12;
+                }
+                if (discountPrice > 0) {
+                    unitPrice = priceAfterDiscount;
+                    discountPercent = (discountPrice / mrp)*100;
+                }
+                else{
+                    unitPrice = (priceAfterDiscount * 100) / (100 + taxPercent);
+                    if( price!==_.round(mrp)){
+                        discountPercent=30;
+                        discountPriceApplied=(30*_.round(mrp))/100                    
+                    }
+                }
+                taxAmt = _.round(((taxPercent / 100) * unitPrice));
+                if( price!==_.round(mrp)){
+                    gst +=taxAmt;
+                }
+                product.unitPrice = _.round(unitPrice);
+                product.taxAmt = _.round(taxAmt);
+                product.taxPercent = taxPercent;
+                product.discountAmount = _.round(discountPrice);
+                product.discountPriceApplied = _.round(discountPriceApplied);
+                product.discountPercent = discountPercent;
+                product.finalAmt = _.round(finalAmt);
+                subTotal += _.round(price);
+                totalDiscount += _.round(discountPrice);
             });
-            order.save(function (err, data) {
-                callback(err, order);
+
+            
+            model.generateInvoiceOrOrderYear("BU", function (err, invoiceYear) {
+                num = order.invoiceNumberIncr;
+                num = '' + num;
+                while (num.length < 7) {
+                    num = '0' + num;
+                }
+                order.invoiceNumber = invoiceYear + num;
             });
+            order.gst = _.round(gst);
+            order.totalDiscount = totalDiscount;
+            order.subTotal = subTotal;
+            order.totalAmount = _.round((subTotal - totalDiscount) + gst + order.shippingAmount);
+            order.date = (new Date()).toLocaleDateString();
+            Order.saveData(order, function (err, data) {
+                if (err) {
+                    console.log(err);
+                    callback(err, null)
+                } else {
+                    callback(null, order);
+                }
+            })
+
         });
     },
-    sendInvoice: function (data, callback) {
-        sails.renderView('email/invoice', {
-            order: order
-        }, function (err, bodyOfEmail) {
-            // Config.sendEmail(order.user.id, );  Send email here
-        });
+    sendEmail: function (order, prevCallback) {
+        async.waterfall([
+            function (callback) {
+                Config.generatePdf("invoice-actual", order, callback);
+            },
+            function (data, callback) {
+                order.invoicePdfName = data.name;
+                Order.saveData(order, function (err, data) {
+                    if (err) {
+                        console.log(err);
+                        obj
+                    } else {
+                        callback(null, order);
+                    }
+                })
+            },
+            function (data, callback) {
+                var emailData = {};
+                emailData.email = order.user.email;
+                emailData.subject = "Invoice PDF";
+                emailData.body = "Invoice";
+                emailData.from = "supriya.kadam478@hotmail.com";
+                emailData.filename = data.invoicePdfName;
+                Config.sendEmailAttachment(emailData, callback);
+            }
+        ], function (err, results) {
+            if (err) {
+                console.log("Error", err);
+                prevCallback(err, null);
+            } else {
+                console.log("Results");
+                prevCallback(null, results);
+            }
+        })
     }
 };
 module.exports = _.assign(module.exports, exports, model);
