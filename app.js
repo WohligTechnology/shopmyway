@@ -25,7 +25,7 @@ var mongoose;
 mongoose = require('mongoose');
 var md5 = require('md5');
 
-global["database"] = "burntUmber";
+global["database"] = "shopmyway";
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/' + database, function (err) {
     if (err) {
