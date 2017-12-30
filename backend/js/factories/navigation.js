@@ -6,42 +6,108 @@ var uploadurl = imgurl;
 
 
 myApp.factory('NavigationService', function ($http) {
-    var navigation = [{
-            name: "Users",
-            classis: "active",
-            sref: "#!/page/viewUser//",
-            icon: "user"
-        }, {
-            name: "User Membership",
-            classis: "active",
-            sref: "#!/page/viewMembership//",
-            icon: "user"
-        }, {
+    var navigation = [
+      
+        {
+            name: "User",
+            sref: "",
+            icon: "user",
+            subnav:[
+                {
+                name: "Users",
+                classis: "active",
+                link: "#!/page/viewUser//",
+                icon: "user",
+              },
+               
+                {
+                name: "User Membership",
+                classis: "active",
+                link: "#!/page/viewMembership//",
+                icon: "user"
+            },
+            ]
+        },
+        
+         {
             name: "Category",
             classis: "active",
-            sref: "#!/page/viewHomeCategory//",
-            icon: "tree"
-        }, {
-            name: "Sub Category",
-            classis: "active",
-            sref: "#!/page/viewCategory//",
-            icon: "leaf"
-        }, {
+            sref: "",
+            icon: "tree",
+            subnav:[{
+                name: "Category",
+                classis: "active",
+                link: "#!/page/viewHomeCategory//",
+                icon: "tree"
+
+            },
+            {
+                name: "Sub Category",
+                classis: "active",
+                link: "#!/page/viewCategory//",
+                icon: "leaf"
+            }]
+        },  {
             name: "Home Screen",
             classis: "active",
-            sref: "#!/page/viewHomeScreen//",
-            icon: "screen"
+            sref: "",
+            icon: "screen",
+            subnav:[{
+                name: "Home ",
+                classis: "active",
+                link: "#!/page/viewHomeScreen//",
+                icon: "screen",
+            },{
+                name: "Content",
+                classis: "active",
+                link: "#!/page/viewHomeScreen//",
+                icon: "screen",
+            }]
+          
         }, {
             name: "Products",
             classis: "active",
-            sref: "#!/page/viewProduct//",
-            icon: "shirt"
-        }, {
-            name: "Sizes",
+            sref: "",
+            icon: "shirt",
+            subnav:[{
+                name: "Products",
             classis: "active",
-            sref: "#!/page/viewSize//",
-            icon: "shirt"
-        }, {
+            link: "#!/page/viewProduct//",
+            icon: "shirt",
+                
+            },
+            {
+                name: "Sizes",
+                classis: "active",
+                link: "#!/page/viewSize//",
+                icon: "shirt"
+            },
+            {
+                name: "Brand",
+                classis: "active",
+                link: "#!/page/viewBrand//",
+                icon: "document"
+            },
+            {
+                name: "Collection",
+                classis: "active",
+                link: "#!/page/viewCollection//",
+                icon: "document"
+            },
+            {
+                name: "Fabric",
+                classis: "active",
+                link: "#!/page/viewFabric//",
+                icon: "document"
+            },
+            {
+                name: "Type",
+                classis: "active",
+                link: "#!/page/viewType//",
+                icon: "document"
+            },
+        ]
+        },  {
             name: "Buy the look",
             classis: "active",
             sref: "#!/page/viewBuythelook//",
@@ -64,32 +130,12 @@ myApp.factory('NavigationService', function ($http) {
             classis: "active",
             sref: "#!/page/viewBlog//",
             icon: "document"
-        }, {
-            name: "Brand",
-            classis: "active",
-            sref: "#!/page/viewBrand//",
-            icon: "document"
-        }, {
-            name: "Collection",
-            classis: "active",
-            sref: "#!/page/viewCollection//",
-            icon: "document"
-        }, {
+        },   {
             name: "BaseColor",
             classis: "active",
             sref: "#!/page/viewBaseColor//",
             icon: "document"
-        }, {
-            name: "Fabric",
-            classis: "active",
-            sref: "#!/page/viewFabric//",
-            icon: "document"
-        }, {
-            name: "Type",
-            classis: "active",
-            sref: "#!/page/viewType//",
-            icon: "document"
-        }, {
+        },  {
             name: "Banner",
             classis: "active",
             sref: "#!/page/viewBanner//",
@@ -97,18 +143,25 @@ myApp.factory('NavigationService', function ($http) {
         }, {
             name: "Discount",
             classis: "active",
-            sref: "#!/page/viewDiscount//",
-            icon: "document"
-        }, {
-            name: "Discount Type",
-            classis: "active",
-            sref: "#!/page/viewDiscountType//",
-            icon: "document"
-        }, {
-            name: "Coupon",
-            classis: "active",
-            sref: "#!/page/viewCoupon//",
-            icon: "document"
+            sref: "",
+            icon: "document",
+            subnav:[{
+                name: "Discount",
+                classis: "active",
+                link: "#!/page/viewDiscount//",
+                icon: "document"
+            }, {
+                name: "Discount Type",
+                classis: "active",
+                link: "#!/page/viewDiscountType//",
+                icon: "document"
+            }, 
+            {
+                name: "Coupon",
+                classis: "active",
+                link: "#!/page/viewCoupon//",
+                icon: "document"
+            },]
         }, {
             name: "Home Page Blocks",
             classis: "active",
@@ -119,6 +172,30 @@ myApp.factory('NavigationService', function ($http) {
             classis: "active",
             sref: "#!/page/viewStoreLocator//",
             icon: "document"
+        },
+        {
+            name: "Settings",
+            classis: "active",
+            sref: "",
+            icon: "document"
+        },
+        {
+            name: "Channels",
+            classis: "active",
+            sref: "",
+            icon: "document"
+        },
+        {
+            name: "Marketing",
+            classis: "active",
+            sref: "",
+            icon: "document",
+            subnav:[{
+                name: "Email Marketing",
+                classis: "active",
+                link: "",
+                icon: "document",
+            }]
         }
     ];
 
