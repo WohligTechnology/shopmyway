@@ -107,12 +107,13 @@ myApp.factory('NavigationService', function ($http) {
                 icon: "document"
             },
         ]
-        },  {
-            name: "Buy the look",
-            classis: "active",
-            sref: "#!/page/viewBuythelook//",
-            icon: "shirt"
-        },
+        }, 
+        //  {
+        //     name: "Buy the look",
+        //     classis: "active",
+        //     sref: "#!/page/viewBuythelook//",
+        //     icon: "shirt"
+        // },
         {
             name: "Order",
             classis: "active",
@@ -162,12 +163,14 @@ myApp.factory('NavigationService', function ($http) {
                 link: "#!/page/viewCoupon//",
                 icon: "document"
             },]
-        }, {
-            name: "Home Page Blocks",
-            classis: "active",
-            sref: "#!/page/viewHomePageBlock//",
-            icon: "document"
-        }, {
+        }, 
+        // {
+        //     name: "Home Page Blocks",
+        //     classis: "active",
+        //     sref: "#!/page/viewHomePageBlock//",
+        //     icon: "document"
+        // },
+         {
             name: "Store Locator",
             classis: "active",
             sref: "#!/page/viewStoreLocator//",
